@@ -1,8 +1,8 @@
 from constants import DEFAULT_COUNT_PATIENTS, ZERO, ONE, TWO, THREE, ERROR_INT, NOT_FOUND
 
 
-def generate_patients(count: int = DEFAULT_COUNT_PATIENTS):
-    return [1 for _ in range(count)]
+def generate_patients(count: int = DEFAULT_COUNT_PATIENTS, status: int = 1):
+    return [status for _ in range(count)]
 
 
 def get_calculated_results(data):
@@ -12,18 +12,20 @@ def get_calculated_results(data):
         'Слегка болен': data.count(TWO),
         'Готов к выписке': data.count(THREE),
     }
-    result = f'В больнице на данный момент находится {len(data)} чел., из них: \n'
+    result = f'В больнице на данный момент находится {len(data)} чел., из них: '
     for k, v in data_for_calculate_status.items():
         if v != ZERO:
-            result += f'в статусе "{k}": {v} чел. \n'
+            result += f'в статусе "{k}": {v} чел.'
     return result
 
 
 def check_patient_id(func):
     def inner(*args, **kwargs):
         patient_id = args[1]
+        if not isinstance(patient_id, int):
+            return 'Ошибка. Вводите число'
         if patient_id > DEFAULT_COUNT_PATIENTS or patient_id <= ZERO:
-            print(NOT_FOUND)
+            return NOT_FOUND
         else:
             return func(*args, **kwargs)
 
