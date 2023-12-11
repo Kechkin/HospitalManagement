@@ -1,4 +1,5 @@
-from constants import DEFAULT_COUNT_PATIENTS, ZERO, ONE, TWO, THREE, ERROR_INT, NOT_FOUND
+from constants import DEFAULT_COUNT_PATIENTS, ZERO, ONE, TWO, THREE, ERROR_VALUE_INTEGER, PATIENT_NOT_FOUND, ERROR_INPUT_INT, \
+    ERROR_EMPTY_VALUE
 
 
 def generate_patients(count: int = DEFAULT_COUNT_PATIENTS, status: int = 1):
@@ -24,13 +25,13 @@ def check_patient_id(func):
         if len(args) >= 2:
             patient_id = args[1]
             if not isinstance(patient_id, int):
-                return 'Ошибка. Вводите число'
+                return ERROR_INPUT_INT
             if patient_id > DEFAULT_COUNT_PATIENTS or patient_id <= ZERO:
-                return NOT_FOUND
+                return PATIENT_NOT_FOUND
             else:
                 return func(*args, **kwargs)
         else:
-            return 'Ошибка. Пустое значение, введите число'
+            return ERROR_EMPTY_VALUE
 
     return inner
 
@@ -39,7 +40,7 @@ def validate_input(patient_id):
     if patient_id.isdigit():
         return int(patient_id)
     else:
-        print(ERROR_INT)
+        print(ERROR_VALUE_INTEGER)
 
 
 def get_input(text):

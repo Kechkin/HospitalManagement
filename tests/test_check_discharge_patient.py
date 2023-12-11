@@ -1,6 +1,7 @@
 import unittest
 
 from Hospital import Hospital
+from constants import PATIENT_DISCHARGED, ERROR_THERE_IS_NO_PATIENT_ID, ERROR_INPUT_INT, ERROR_EMPTY_VALUE, PATIENT_NOT_FOUND
 from functions import generate_patients
 
 
@@ -14,25 +15,25 @@ class TestCheckDischarge(unittest.TestCase):
 
     def test_repeat_discharge_patient(self):
         self.app._list_of_patients = generate_patients(200, 2)
-        self.assertEqual(self.app.discharge_patient(200), 'Пациент выписан из больницы')
-        self.assertEqual(self.app.discharge_patient(200), 'Ошибка. Такого пациента нет')
+        self.assertEqual(self.app.discharge_patient(200), PATIENT_DISCHARGED)
+        self.assertEqual(self.app.discharge_patient(200), ERROR_THERE_IS_NO_PATIENT_ID)
 
     def test_check_empty_list(self):
         self.app._list_of_patients = generate_patients(0, 2)
-        self.assertEqual(self.app.discharge_patient(100), 'Ошибка. Такого пациента нет')
+        self.assertEqual(self.app.discharge_patient(100), ERROR_THERE_IS_NO_PATIENT_ID)
 
     def test_check_input_text(self):
         self.app._list_of_patients = generate_patients(200, 2)
-        self.assertEqual(self.app.discharge_patient('100F'), 'Ошибка. Вводите число')
+        self.assertEqual(self.app.discharge_patient('100F'), ERROR_INPUT_INT)
 
     def test_check_input_max_value(self):
         self.app._list_of_patients = generate_patients(200, 2)
-        self.assertEqual(self.app.discharge_patient(10000), 'Ошибка. В больнице нет пациента с таким ID')
+        self.assertEqual(self.app.discharge_patient(10000), PATIENT_NOT_FOUND)
 
     def test_check_input_min_value(self):
         self.app._list_of_patients = generate_patients(200, 2)
-        self.assertEqual(self.app.discharge_patient(-112), 'Ошибка. В больнице нет пациента с таким ID')
+        self.assertEqual(self.app.discharge_patient(-112), PATIENT_NOT_FOUND)
 
     def test_check_empty_value(self):
         self.app._list_of_patients = generate_patients(200, 2)
-        self.assertEqual(self.app.discharge_patient(), 'Ошибка. Пустое значение, введите число')
+        self.assertEqual(self.app.discharge_patient(), ERROR_EMPTY_VALUE)

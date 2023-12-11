@@ -1,4 +1,5 @@
-from constants import ZERO, PATIENT_STATUSES, THREE, ERROR_DECREASE, PATIENT_READY, YES, PATIENT_DONE, SESSION_END
+from constants import ZERO, PATIENT_STATUSES, THREE, ERROR_DECREASE, PATIENT_READY_TO_DISCHARGE, YES, PATIENT_DISCHARGED, SESSION_END, \
+    ERROR_THERE_IS_NO_PATIENT_ID
 from functions import generate_patients, get_calculated_results, check_patient_id, get_input
 
 
@@ -30,7 +31,7 @@ class Patient:
         if answer == YES:
             return self.discharge_patient(patient_id)
         else:
-            return PATIENT_READY
+            return PATIENT_READY_TO_DISCHARGE
 
     @check_patient_id
     def increase_status_patient(self, patient_id):
@@ -51,9 +52,9 @@ class Patient:
     def discharge_patient(self, patient_id):
         if self._list_of_patients and patient_id <= len(self._list_of_patients):
             self._list_of_patients.pop(patient_id - 1)
-            return PATIENT_DONE
+            return PATIENT_DISCHARGED
         else:
-            return 'Ошибка. Такого пациента нет'
+            return ERROR_THERE_IS_NO_PATIENT_ID
 
 
 class Hospital(Patient):

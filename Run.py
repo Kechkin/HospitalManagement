@@ -1,5 +1,5 @@
 from Hospital import Hospital
-from constants import TRY_AGAIN
+from constants import UNKNOWN_COMMAND_TRY_AGAIN
 from functions import validate_input
 
 app = Hospital()
@@ -39,4 +39,4 @@ while True:
         print(app.calculate_statistics())
 
     else:
-        print(TRY_AGAIN)
+        print(UNKNOWN_COMMAND_TRY_AGAIN)
