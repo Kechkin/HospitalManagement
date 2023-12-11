@@ -13,8 +13,7 @@ class Patient:
     _list_of_patients: list = generate_patients()
 
     def _get_patient_by_id(self, patient_id: int):
-        if patient_id > ZERO and isinstance(patient_id, int):
-            return self._list_of_patients[patient_id - 1]
+        return self._list_of_patients[patient_id - 1]
 
     def _get_new_patient_status(self, patient_id):
         status_id = self._list_of_patients[patient_id - 1]
@@ -27,7 +26,7 @@ class Patient:
         patient_status = Status.get_status_patient(status_id)
         return f'Статус пациента: {patient_status}'
 
-    def _input(self, answer, patient_id):
+    def _input(self, answer: str, patient_id: int):
         if answer == YES:
             return self.discharge_patient(patient_id)
         else:

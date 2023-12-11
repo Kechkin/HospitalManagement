@@ -20,5 +20,6 @@ PATIENT_DISCHARGED: str = 'Пациент выписан из больницы'
 ERROR_THERE_IS_NO_PATIENT_ID: str = 'Ошибка. Такого пациента нет'
 ERROR_INPUT_INT: str = 'Ошибка. Вводите число'
 ERROR_EMPTY_VALUE: str = 'Ошибка. Пустое значение, введите число'
+
 YES: str = 'да'
 SESSION_END: str = 'Сеанс завершён.'
