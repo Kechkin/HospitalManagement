@@ -40,3 +40,6 @@ class TestCalculateStatistics(unittest.TestCase):
         self.assertEqual(self.app.calculate_statistics(), 'В больнице на данный момент находится 200 чел., из них: '
                                                           'в статусе "Тяжело болен": 1 чел.в статусе "Болен": 197 чел.в статусе '
                                                           '"Слегка болен": 1 чел.в статусе "Готов к выписке": 1 чел.')
+
+    def test_check_stop(self):
+        self.assertEqual(self.app.stop(), 'Сеанс завершён.')

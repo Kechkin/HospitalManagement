@@ -19,6 +19,8 @@ class TestCheckIncreaseStatusPatient(unittest.TestCase):
 
     def test_check_not_ready_to_discharge(self):
         self.assertEqual(self.app._input('нет', 112), PATIENT_READY_TO_DISCHARGE)
+        self.assertEqual(self.app._input('text', 112), PATIENT_READY_TO_DISCHARGE)
+        self.assertEqual(self.app._input('', 112), PATIENT_READY_TO_DISCHARGE)
 
     def test_check_string_number(self):
         self.assertEqual(self.app.increase_status_patient('12'), ERROR_INPUT_INT)
