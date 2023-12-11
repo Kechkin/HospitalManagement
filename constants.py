@@ -22,4 +22,6 @@ ERROR_INPUT_INT: str = 'Ошибка. Вводите число'
 ERROR_EMPTY_VALUE: str = 'Ошибка. Пустое значение, введите число'
 
 YES: str = 'да'
+NO: str = 'нет'
+TEXT: str = 'text'
 SESSION_END: str = 'Сеанс завершён.'

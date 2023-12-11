@@ -1,7 +1,7 @@
 import unittest
 
 from Hospital import Hospital
-from constants import ERROR_INPUT_INT, ERROR_EMPTY_VALUE, PATIENT_NOT_FOUND
+from constants import ERROR_INPUT_INT, ERROR_EMPTY_VALUE, PATIENT_NOT_FOUND, TEXT
 from functions import generate_patients
 
 
@@ -27,7 +27,7 @@ class TestCheckGetPatientStatus(unittest.TestCase):
 
     def test_check_input_text(self):
         self.app._list_of_patients = generate_patients(200, 3)
-        self.assertEqual(self.app.get_status_patient('ff21'), ERROR_INPUT_INT)
+        self.assertEqual(self.app.get_status_patient(TEXT), ERROR_INPUT_INT)
 
     def test_check_input_empty_value(self):
         self.app._list_of_patients = generate_patients(200, 3)

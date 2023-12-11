@@ -1,7 +1,8 @@
 import unittest
 
 from Hospital import Hospital
-from constants import PATIENT_DISCHARGED, PATIENT_READY_TO_DISCHARGE, ERROR_INPUT_INT, ERROR_EMPTY_VALUE, PATIENT_NOT_FOUND
+from constants import PATIENT_DISCHARGED, PATIENT_READY_TO_DISCHARGE, ERROR_INPUT_INT, ERROR_EMPTY_VALUE, \
+    PATIENT_NOT_FOUND, TEXT, YES, NO
 from functions import generate_patients
 
 
@@ -15,12 +16,12 @@ class TestCheckIncreaseStatusPatient(unittest.TestCase):
         self.assertEqual(self.app.increase_status_patient(100), 'Новый статус пациента: Готов к выписке')
 
     def test_check_ready_to_discharge(self):
-        self.assertEqual(self.app._input('да', 100), PATIENT_DISCHARGED)
+        self.assertEqual(self.app._get_result_from_input_answer(100, YES), PATIENT_DISCHARGED)
 
     def test_check_not_ready_to_discharge(self):
-        self.assertEqual(self.app._input('нет', 112), PATIENT_READY_TO_DISCHARGE)
-        self.assertEqual(self.app._input('text', 112), PATIENT_READY_TO_DISCHARGE)
-        self.assertEqual(self.app._input('', 112), PATIENT_READY_TO_DISCHARGE)
+        self.assertEqual(self.app._get_result_from_input_answer(112, NO), PATIENT_READY_TO_DISCHARGE)
+        self.assertEqual(self.app._get_result_from_input_answer(112, TEXT), PATIENT_READY_TO_DISCHARGE)
+        self.assertEqual(self.app._get_result_from_input_answer(112, TEXT), PATIENT_READY_TO_DISCHARGE)
 
     def test_check_string_number(self):
         self.assertEqual(self.app.increase_status_patient('12'), ERROR_INPUT_INT)

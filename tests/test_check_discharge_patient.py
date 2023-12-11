@@ -1,7 +1,8 @@
 import unittest
 
 from Hospital import Hospital
-from constants import PATIENT_DISCHARGED, ERROR_THERE_IS_NO_PATIENT_ID, ERROR_INPUT_INT, ERROR_EMPTY_VALUE, PATIENT_NOT_FOUND
+from constants import PATIENT_DISCHARGED, ERROR_THERE_IS_NO_PATIENT_ID, ERROR_INPUT_INT, ERROR_EMPTY_VALUE, \
+    PATIENT_NOT_FOUND, TEXT
 from functions import generate_patients
 
 
@@ -24,7 +25,7 @@ class TestCheckDischarge(unittest.TestCase):
 
     def test_check_input_text(self):
         self.app._list_of_patients = generate_patients(200, 2)
-        self.assertEqual(self.app.discharge_patient('100F'), ERROR_INPUT_INT)
+        self.assertEqual(self.app.discharge_patient(TEXT), ERROR_INPUT_INT)
 
     def test_check_input_max_value(self):
         self.app._list_of_patients = generate_patients(200, 2)

@@ -1,7 +1,7 @@
 import unittest
 
 from Hospital import Hospital
-from constants import ERROR_INPUT_INT, PATIENT_NOT_FOUND, ERROR_DECREASE, ERROR_EMPTY_VALUE
+from constants import ERROR_INPUT_INT, PATIENT_NOT_FOUND, ERROR_DECREASE, ERROR_EMPTY_VALUE, TEXT
 
 
 class TestCheckDecreasePatient(unittest.TestCase):
@@ -11,7 +11,7 @@ class TestCheckDecreasePatient(unittest.TestCase):
         self.assertEqual(self.app.decrease_status_patient(2), 'Новый статус пациента: Тяжело болен')
 
     def test_check_text_instead_number(self):
-        self.assertEqual(self.app.decrease_status_patient('text'), ERROR_INPUT_INT)
+        self.assertEqual(self.app.decrease_status_patient(TEXT), ERROR_INPUT_INT)
 
     def test_check_zero(self):
         self.assertEqual(self.app.decrease_status_patient(-12), PATIENT_NOT_FOUND)

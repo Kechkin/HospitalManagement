@@ -1,6 +1,7 @@
 import unittest
 
 from Hospital import Status
+from constants import TEXT
 
 
 class TestStatus(unittest.TestCase):
@@ -24,4 +25,4 @@ class TestStatus(unittest.TestCase):
         self.assertEqual(self.st.get_status_patient(7), None)
 
     def test_check_text_value(self):
-        self.assertEqual(self.st.get_status_patient('text'), None)
+        self.assertEqual(self.st.get_status_patient(TEXT), None)

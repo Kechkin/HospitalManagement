@@ -29,7 +29,7 @@ class Patient:
         patient_status = Status.get_status_patient(status_id)
         return f'Статус пациента: {patient_status}'
 
-    def _input(self, answer: str, patient_id: int):
+    def _get_result_from_input_answer(self, patient_id: int, answer: str = ''):
         if answer == YES:
             return self.discharge_patient(patient_id)
         else:
@@ -40,7 +40,7 @@ class Patient:
     def increase_status_patient(self, patient_id):
         if self._list_of_patients[patient_id - 1] == THREE:
             answer = get_input('Желаете этого клиента выписать? (да/нет):')
-            return self._input(answer, patient_id)
+            return self._get_result_from_input_answer(patient_id, answer)
         self._list_of_patients[patient_id - 1] += 1
         return self._get_new_patient_status(patient_id)
 
