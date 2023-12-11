@@ -21,13 +21,16 @@ def get_calculated_results(data):
 
 def check_patient_id(func):
     def inner(*args, **kwargs):
-        patient_id = args[1]
-        if not isinstance(patient_id, int):
-            return 'Ошибка. Вводите число'
-        if patient_id > DEFAULT_COUNT_PATIENTS or patient_id <= ZERO:
-            return NOT_FOUND
+        if len(args) >= 2:
+            patient_id = args[1]
+            if not isinstance(patient_id, int):
+                return 'Ошибка. Вводите число'
+            if patient_id > DEFAULT_COUNT_PATIENTS or patient_id <= ZERO:
+                return NOT_FOUND
+            else:
+                return func(*args, **kwargs)
         else:
-            return func(*args, **kwargs)
+            return 'Ошибка. Пустое значение, введите число'
 
     return inner
 
@@ -37,3 +40,7 @@ def validate_input(patient_id):
         return int(patient_id)
     else:
         print(ERROR_INT)
+
+
+def get_input(text):
+    return input(text)

@@ -1,0 +1,31 @@
+import unittest
+
+from Hospital import Hospital
+from functions import generate_patients
+
+
+class TestCheckIncreaseStatusPatient(unittest.TestCase):
+    app = Hospital()
+
+    def test_check_all_increase_status_patient(self):
+        self.app._list_of_patients = generate_patients(200, 0)
+        self.assertEqual(self.app.increase_status_patient(100), 'Новый статус пациента: Болен')
+        self.assertEqual(self.app.increase_status_patient(100), 'Новый статус пациента: Слегка болен')
+        self.assertEqual(self.app.increase_status_patient(100), 'Новый статус пациента: Готов к выписке')
+
+    def test_check_ready_to_discharge(self):
+        self.assertEqual(self.app._input('да', 100), 'Пациент выписан из больницы')
+
+    def test_check_not_ready_to_discharge(self):
+        self.assertEqual(self.app._input('нет', 112), 'Пациент остался в статусе "Готов к выписке"')
+
+    def test_check_string_number(self):
+        self.assertEqual(self.app.increase_status_patient('12'), 'Ошибка. Вводите число')
+
+    def test_check_empty_value(self):
+        self.assertEqual(self.app.increase_status_patient(), 'Ошибка. Пустое значение, введите число')
+
+    def test_check_max_and_min_values(self):
+        self.app._list_of_patients = generate_patients(200, 2)
+        self.assertEqual(self.app.increase_status_patient(-123), 'Ошибка. В больнице нет пациента с таким ID')
+        self.assertEqual(self.app.increase_status_patient(224), 'Ошибка. В больнице нет пациента с таким ID')

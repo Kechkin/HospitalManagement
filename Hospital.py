@@ -1,5 +1,5 @@
 from constants import ZERO, PATIENT_STATUSES, THREE, ERROR_DECREASE, PATIENT_READY, YES, PATIENT_DONE, SESSION_END
-from functions import generate_patients, get_calculated_results, check_patient_id
+from functions import generate_patients, get_calculated_results, check_patient_id, get_input
 
 
 class Status:
@@ -26,14 +26,17 @@ class Patient:
         patient_status = Status.get_status_patient(status_id)
         return f'Статус пациента: {patient_status}'
 
+    def _input(self, answer, patient_id):
+        if answer == YES:
+            return self.discharge_patient(patient_id)
+        else:
+            return PATIENT_READY
+
     @check_patient_id
     def increase_status_patient(self, patient_id):
         if self._list_of_patients[patient_id - 1] == THREE:
-            answer = input('Желаете этого клиента выписать? (да/нет):')
-            if answer == YES:
-                return self.discharge_patient(patient_id)
-            else:
-                return PATIENT_READY
+            answer = get_input('Желаете этого клиента выписать? (да/нет):')
+            return self._input(answer, patient_id)
         self._list_of_patients[patient_id - 1] += 1
         return self._get_new_patient_status(patient_id)
 
@@ -46,8 +49,11 @@ class Patient:
 
     @check_patient_id
     def discharge_patient(self, patient_id):
-        self._list_of_patients.pop(patient_id - 1)
-        return PATIENT_DONE
+        if self._list_of_patients and patient_id <= len(self._list_of_patients):
+            self._list_of_patients.pop(patient_id - 1)
+            return PATIENT_DONE
+        else:
+            return 'Ошибка. Такого пациента нет'
 
 
 class Hospital(Patient):

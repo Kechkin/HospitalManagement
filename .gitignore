@@ -1,3 +1,4 @@
 .idea/
 __pycache__
-.DS_S,
+.DS_Store
+venv
