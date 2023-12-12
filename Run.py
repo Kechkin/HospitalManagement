@@ -1,4 +1,4 @@
-from Hospital import Hospital
+from HospitalApp import Hospital
 from constants import UNKNOWN_COMMAND_TRY_AGAIN
 from functions import validate_input
 

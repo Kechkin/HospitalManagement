@@ -1,6 +1,6 @@
 import unittest
 
-from Hospital import Status
+from HospitalApp import Status
 from constants import TEXT
 
 
