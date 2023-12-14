@@ -3,6 +3,7 @@ from constants import (DEFAULT_COUNT_PATIENTS, ZERO, ONE, TWO, THREE, ERROR_VALU
 
 
 def generate_patients_with_statuses(count: int = DEFAULT_COUNT_PATIENTS, status: int = 1):
+    # status should be from 0 to 3
     return [status for _ in range(count)]
 
 

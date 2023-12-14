@@ -1,7 +1,7 @@
 import unittest
 
 from HospitalApp import Hospital
-from constants import ERROR_INPUT_UNSIGNED_INT, ERROR_EMPTY_VALUE_INPUT_UNSIGNED_INT, ERROR_THERE_IS_NOT_PATIENT_WITH_THIS_ID, TEXT
+from constants import ERROR_INPUT_UNSIGNED_INT, ERROR_THERE_IS_NOT_PATIENT_WITH_THIS_ID, TEXT
 from functions import generate_patients_with_statuses
 
 

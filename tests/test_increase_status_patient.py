@@ -1,13 +1,12 @@
-import unittest
 from unittest.mock import patch
 import HospitalApp
 from HospitalApp import Hospital
 from constants import (PATIENT_DISCHARGED, PATIENT_READY_TO_DISCHARGE, ERROR_INPUT_UNSIGNED_INT,
-                       ERROR_THERE_IS_NOT_PATIENT_WITH_THIS_ID, YES, NO, ZERO, ONE)
+                       ERROR_THERE_IS_NOT_PATIENT_WITH_THIS_ID, YES, NO)
 from functions import generate_patients_with_statuses
 
 
-class TestCheckIncreaseStatusPatient(unittest.TestCase):
+class TestCheckIncreaseStatusPatient:
     app = Hospital()
 
     @patch.object(HospitalApp.Patient, '_get_input')
