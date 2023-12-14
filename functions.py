@@ -1,8 +1,8 @@
-from constants import DEFAULT_COUNT_PATIENTS, ZERO, ONE, TWO, THREE, ERROR_VALUE_INTEGER, PATIENT_NOT_FOUND, \
-    ERROR_INPUT_INT, ERROR_EMPTY_VALUE
+from constants import (DEFAULT_COUNT_PATIENTS, ZERO, ONE, TWO, THREE, ERROR_VALUE_SHOULD_BE_UNSIGNED_INT,
+                       ERROR_THERE_IS_NOT_PATIENT_WITH_THIS_ID, ERROR_INPUT_UNSIGNED_INT)
 
 
-def generate_patients(count: int = DEFAULT_COUNT_PATIENTS, status: int = 1):
+def generate_patients_with_statuses(count: int = DEFAULT_COUNT_PATIENTS, status: int = 1):
     return [status for _ in range(count)]
 
 
@@ -20,19 +20,18 @@ def get_calculated_results(data):
     return result
 
 
-# Тест сделать
 def check_patient_id(func):
     def inner(*args, **kwargs):
         if len(args) >= 2:
             patient_id = args[1]
-            if not isinstance(patient_id, int):
-                return ERROR_INPUT_INT
-            if patient_id > DEFAULT_COUNT_PATIENTS or patient_id <= ZERO:
-                return PATIENT_NOT_FOUND
+            if not isinstance(patient_id, int) or patient_id <= ZERO:
+                return ERROR_INPUT_UNSIGNED_INT
+            elif patient_id > DEFAULT_COUNT_PATIENTS:
+                return ERROR_THERE_IS_NOT_PATIENT_WITH_THIS_ID
             else:
                 return func(*args, **kwargs)
         else:
-            return ERROR_EMPTY_VALUE
+            return ERROR_INPUT_UNSIGNED_INT
     return inner
 
 
@@ -40,4 +39,4 @@ def validate_input(patient_id):
     if patient_id.isdigit():
         return int(patient_id)
     else:
-        print(ERROR_VALUE_INTEGER)
+        print(ERROR_VALUE_SHOULD_BE_UNSIGNED_INT)

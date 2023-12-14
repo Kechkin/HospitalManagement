@@ -1,6 +1,6 @@
 from constants import ZERO, PATIENT_STATUSES, THREE, ERROR_DECREASE, PATIENT_READY_TO_DISCHARGE, YES, \
     PATIENT_DISCHARGED, SESSION_END, ERROR_THERE_IS_NO_PATIENT_ID
-from functions import generate_patients, get_calculated_results, check_patient_id
+from functions import generate_patients_with_statuses, get_calculated_results, check_patient_id
 
 
 # Tested
@@ -11,7 +11,7 @@ class Status:
 
 
 class Patient:
-    _list_of_patients: list = generate_patients()
+    _list_of_patients: list = generate_patients_with_statuses()
 
     @check_patient_id
     def _get_patient_by_id(self, patient_id: int):
