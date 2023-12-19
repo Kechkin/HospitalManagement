@@ -1,3 +1,4 @@
+from Service import BaseLogic
 from constants import ZERO, PATIENT_STATUSES, THREE, ERROR_CANNOT_DECREASE_LOW_STATUS, \
     PATIENT_STATUS_READY_TO_DISCHARGE, YES, \
     PATIENT_DISCHARGED, SESSION_END, ERROR_THERE_IS_NO_PATIENT_ID, ERROR_INPUT_UNSIGNED_INT, \
@@ -49,7 +50,8 @@ class Patient:
             if self._list_of_patients[patient_id - 1] == THREE:
                 answer = self._get_input('Желаете этого клиента выписать? (да/нет):')
                 if answer == YES:
-                    return self.discharge_patient(patient_id)
+                    return BaseLogic().discharge(patient_id=patient_id,
+                                                 list_of_patient=self._list_of_patients)
                 else:
                     return PATIENT_STATUS_READY_TO_DISCHARGE
             self._list_of_patients[patient_id - 1] += 1
@@ -70,11 +72,8 @@ class Patient:
     def discharge_patient(self, patient_id):
         result = self._validate_patient_id(patient_id)
         if result is True:
-            if self._list_of_patients and patient_id <= len(self._list_of_patients):
-                self._list_of_patients.pop(patient_id - 1)
-                return PATIENT_DISCHARGED
-            else:
-                return ERROR_THERE_IS_NO_PATIENT_ID
+            BaseLogic().discharge(patient_id=patient_id,
+                                  list_of_patient=self._list_of_patients)
         return result
 
 
