@@ -1,28 +1,27 @@
-import unittest
-
 from HospitalApp import Status
 from constants import TEXT
 
 
-class TestStatus(unittest.TestCase):
+class TestStatus:
     st = Status()
 
     def test_different_statuses(self):
-        self.assertEqual(self.st.get_status_patient(0), 'Тяжело болен')
-        self.assertEqual(self.st.get_status_patient(1), 'Болен')
-        self.assertEqual(self.st.get_status_patient(2), 'Слегка болен')
-        self.assertEqual(self.st.get_status_patient(3), 'Готов к выписке')
+        assert self.st.get_status_patient(0) == 'Тяжело болен'
+        assert self.st.get_status_patient(1) == 'Болен'
+        assert self.st.get_status_patient(2) == 'Слегка болен'
+        assert self.st.get_status_patient(3) == 'Готов к выписке'
 
-    def test_check_empty_value(self):
+    def test_empty_value(self):
         try:
-            self.st.get_status_patient()
+            self.st.get_status_patient(None)
         except Exception as error:
-            self.assertEqual(error.args[0],
-                             "Status.get_status_patient() missing 1 required positional argument: 'status_id'")
+            assert error.args[0] == "Status.get_status_patient() missing 1 required positional argument: 'status_id'"
 
-    def test_check_different_value(self):
-        self.assertEqual(self.st.get_status_patient(-12), None)
-        self.assertEqual(self.st.get_status_patient(7), None)
+    def test_different_out_of_value_max(self):
+        assert self.st.get_status_patient(7) is None
 
-    def test_check_text_value(self):
-        self.assertEqual(self.st.get_status_patient(TEXT), None)
+    def test_different_out_of_value_min(self):
+        assert self.st.get_status_patient(-12) is None
+
+    def test_text_value(self):
+        assert self.st.get_status_patient(TEXT) is None

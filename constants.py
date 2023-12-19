@@ -12,10 +12,10 @@ PATIENT_STATUSES: dict = {
 }
 
 ERROR_VALUE_SHOULD_BE_UNSIGNED_INT: str = 'Ошибка. ID пациента должно быть числом (целым, положительным)'
-ERROR_DECREASE: str = 'Ошибка. Нельзя понизить самый низкий статус (наши пациенты не умирают)'
+ERROR_CANNOT_DECREASE_LOW_STATUS: str = 'Ошибка. Нельзя понизить самый низкий статус (наши пациенты не умирают)'
 ERROR_THERE_IS_NOT_PATIENT_WITH_THIS_ID: str = 'Ошибка. В больнице нет пациента с таким ID'
 UNKNOWN_COMMAND_TRY_AGAIN: str = 'Неизвестная команда! Попробуйте ещё раз'
-PATIENT_READY_TO_DISCHARGE: str = 'Пациент остался в статусе "Готов к выписке"'
+PATIENT_STATUS_READY_TO_DISCHARGE: str = 'Пациент остался в статусе "Готов к выписке"'
 PATIENT_DISCHARGED: str = 'Пациент выписан из больницы'
 ERROR_THERE_IS_NO_PATIENT_ID: str = 'Ошибка. Такого пациента нет'
 ERROR_INPUT_UNSIGNED_INT: str = 'Ошибка. Вводите число'
