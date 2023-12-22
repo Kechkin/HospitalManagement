@@ -1,8 +1,9 @@
 from HospitalApp import Hospital
+from Service import BaseLogic
 from constants import UNKNOWN_COMMAND_TRY_AGAIN
 from functions import validate_input
 
-app = Hospital()
+app = Hospital(service=BaseLogic)
 
 while True:
     answer = input('Введите команду: ')
