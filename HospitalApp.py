@@ -1,5 +1,4 @@
-from constants import (ZERO, PATIENT_STATUSES, THREE, ERROR_CANNOT_DECREASE_LOW_STATUS, \
-                       PATIENT_STATUS_READY_TO_DISCHARGE, YES, PATIENT_DISCHARGED, SESSION_END,
+from constants import (ZERO, PATIENT_STATUSES, SESSION_END,
                        ERROR_THERE_IS_NOT_PATIENT_WITH_THIS_ID,
                        ERROR_VALUE_SHOULD_BE_UNSIGNED_INT)
 from functions import get_calculated_results
@@ -22,9 +21,6 @@ class Patient:
         patient_status = Status.get_status_patient(status_id)
         return f'Новый статус пациента: {patient_status}'
 
-    def _get_input(self, text):
-        return input(text)
-
     def _validate_patient_id(self, patient_id):
         if not isinstance(patient_id, int) or patient_id <= ZERO:
             return ERROR_VALUE_SHOULD_BE_UNSIGNED_INT
@@ -32,46 +28,40 @@ class Patient:
             return ERROR_THERE_IS_NOT_PATIENT_WITH_THIS_ID
 
     def get_status_patient(self, patient_id):
-        result = self._validate_patient_id(patient_id)
-        if not result:
+        validate_result = self._validate_patient_id(patient_id)
+        if not validate_result:
             status_id = self.app.get_patient_by_id(patient_id=patient_id)
             patient_status = Status.get_status_patient(status_id)
             return f'Статус пациента: {patient_status}'
         else:
-            return result
+            return validate_result
 
     def increase_status_patient(self, patient_id):
-        result = self._validate_patient_id(patient_id)
-        if not result:
-            if self.app.get_patient_by_id(patient_id=patient_id) == THREE:
-                answer = self._get_input('Желаете этого клиента выписать? (да/нет):')
-                if answer == YES:
-                    self.app.discharge(patient_id=patient_id)
-                    return PATIENT_DISCHARGED
-                else:
-                    return PATIENT_STATUS_READY_TO_DISCHARGE
-            self.app.increase(patient_id=patient_id)
-            return self._get_new_patient_status(patient_id)
+        validate_result = self._validate_patient_id(patient_id)
+        if not validate_result:
+            increase_result = self.app.increase(patient_id=patient_id)
+            if not increase_result:
+                return self._get_new_patient_status(patient_id)
+            return increase_result
         else:
-            return result
+            return validate_result
 
     def decrease_status_patient(self, patient_id):
-        result = self._validate_patient_id(patient_id)
-        if not result:
-            if self.app.get_patient_by_id(patient_id=patient_id) == ZERO:
-                return ERROR_CANNOT_DECREASE_LOW_STATUS
-            self.app.decrease(patient_id=patient_id)
-            return self._get_new_patient_status(patient_id)
+        validate_result = self._validate_patient_id(patient_id)
+        if not validate_result:
+            decrease_result = self.app.decrease(patient_id=patient_id)
+            if not decrease_result:
+                return self._get_new_patient_status(patient_id)
+            return decrease_result
         else:
-            return result
+            return validate_result
 
     def discharge_patient(self, patient_id):
-        result = self._validate_patient_id(patient_id)
-        if not result:
-            self.app.discharge(patient_id=patient_id)
-            return PATIENT_DISCHARGED
+        validate_result = self._validate_patient_id(patient_id)
+        if not validate_result:
+            return self.app.discharge(patient_id=patient_id)
         else:
-            return result
+            return validate_result
 
 
 class Hospital(Patient):

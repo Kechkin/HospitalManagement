@@ -1,5 +1,6 @@
 from unittest.mock import patch
 import HospitalApp
+import Service
 from HospitalApp import Hospital
 from Service import BaseLogic
 from constants import (PATIENT_DISCHARGED, PATIENT_STATUS_READY_TO_DISCHARGE, ERROR_THERE_IS_NOT_PATIENT_WITH_THIS_ID,
@@ -11,14 +12,14 @@ class TestIncreaseStatusPatient:
     service = BaseLogic()
     app = Hospital(service)
 
-    @patch.object(HospitalApp.Patient, '_get_input')
+    @patch.object(Service.BaseLogic, '_get_input')
     def test_ready_to_discharge_patient_from_database(self, mock_get_input):
         self.service._list_of_patients = [3, 3, 3, 2, 0]
         mock_get_input.return_value = YES
         assert self.app.increase_status_patient(1) == PATIENT_DISCHARGED
         assert self.service._list_of_patients == [3, 3, 2, 0]
 
-    @patch.object(HospitalApp.Patient, '_get_input')
+    @patch.object(Service.BaseLogic, '_get_input')
     def test_patient_not_ready_to_discharge(self, mock_get_input):
         self.service._list_of_patients = [3, 3, 3, 2, 0]
         mock_get_input.return_value = NO
