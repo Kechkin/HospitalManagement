@@ -1,4 +1,4 @@
-from HospitalApp import Status
+from UseCases import Status
 from constants import TEXT
 
 

@@ -1,10 +1,10 @@
 from constants import PATIENT_DISCHARGED, ZERO, ERROR_CANNOT_DECREASE_LOW_STATUS, YES, \
-    THREE, PATIENT_STATUS_READY_TO_DISCHARGE
-from functions import generate_patients_with_statuses
+    THREE, PATIENT_STATUS_READY_TO_DISCHARGE, ONE, TWO
+from functions import generate_patients_with_statuses_from_zero_to_three
 
 
-class BaseLogic:
-    _list_of_patients = generate_patients_with_statuses(200, 1)
+class Hospital:
+    _list_of_patients = generate_patients_with_statuses_from_zero_to_three(200, 1)
 
     def discharge(self, patient_id: int):
         self._list_of_patients.pop(patient_id - 1)
@@ -29,6 +29,15 @@ class BaseLogic:
 
     def get_patient_by_id(self, patient_id):
         return self._list_of_patients[patient_id - 1]
+
+    def get_calculated_results(self):
+        data_for_calculate_status = {
+            'Тяжело болен': self._list_of_patients.count(ZERO),
+            'Болен': self._list_of_patients.count(ONE),
+            'Слегка болен': self._list_of_patients.count(TWO),
+            'Готов к выписке': self._list_of_patients.count(THREE),
+        }
+        return data_for_calculate_status
 
     @property
     def list_of_patients(self):

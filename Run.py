@@ -1,9 +1,10 @@
-from HospitalApp import Hospital
-from Service import BaseLogic
-from constants import UNKNOWN_COMMAND_TRY_AGAIN
+from UseCases import UseCases
+from Hospital import Hospital
+from constants import UNKNOWN_COMMAND_TRY_AGAIN, SESSION_END
 from functions import validate_input
 
-app = Hospital(service=BaseLogic)
+service = Hospital()
+app = UseCases(service)
 
 while True:
     answer = input('Введите команду: ')
@@ -15,7 +16,7 @@ while True:
             print(app.get_status_patient(patient_id_validated))
 
     elif answer in ['стоп', 'stop']:
-        print(app.stop())
+        print(SESSION_END)
         break
 
     elif answer in ['status up', 'повысить статус пациента']:
@@ -37,7 +38,7 @@ while True:
             print(app.discharge_patient(patient_id_validated))
 
     elif answer in ['рассчитать статистику', 'calculate statistics']:
-        print(app.calculate_statistics())
+        print(app.show_calculated_statistics())
 
     else:
         print(UNKNOWN_COMMAND_TRY_AGAIN)

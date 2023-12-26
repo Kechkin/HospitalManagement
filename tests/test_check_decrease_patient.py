@@ -1,12 +1,12 @@
-from HospitalApp import Hospital
-from Service import BaseLogic
+from UseCases import UseCases
+from Hospital import Hospital
 from constants import (ERROR_THERE_IS_NOT_PATIENT_WITH_THIS_ID, ERROR_CANNOT_DECREASE_LOW_STATUS, TEXT,
                        ERROR_VALUE_SHOULD_BE_UNSIGNED_INT)
 
 
 class TestDecreasePatient:
-    service = BaseLogic()
-    app = Hospital(service)
+    service = Hospital()
+    app = UseCases(service)
 
     def test_decrease_patient(self):
         self.service._list_of_patients = [2, 1, 2, 0, 1]
