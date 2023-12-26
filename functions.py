@@ -13,7 +13,7 @@ def validate_patient_id(patient_id, patients_list):
         return ERROR_THERE_IS_NOT_PATIENT_WITH_THIS_ID
 
 
-def validate_input(patient_id):
+def validate_input_value_from_client(patient_id):
     if patient_id.isdigit():
         return int(patient_id)
     else:
