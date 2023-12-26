@@ -3,7 +3,7 @@ from constants import PATIENT_DISCHARGED, ZERO, ERROR_CANNOT_DECREASE_LOW_STATUS
 from functions import generate_patients_with_statuses_from_zero_to_three
 
 
-class HospitalEntities:
+class Hospital:
     _list_of_patients = generate_patients_with_statuses_from_zero_to_three(200, 1)
 
     def discharge(self, patient_id: int):

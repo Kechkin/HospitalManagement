@@ -1,10 +1,10 @@
 from UseCases import UseCases
-from HospitalEntities import HospitalEntities
+from Hospital import Hospital
 from functions import generate_patients_with_statuses_from_zero_to_three
 
 
 class TestProtectedMethods:
-    entities = HospitalEntities()
+    entities = Hospital()
     app = UseCases(entities)
 
     def test_get_new_patient_status(self):

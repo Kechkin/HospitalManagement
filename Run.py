@@ -1,9 +1,9 @@
 from UseCases import UseCases
-from HospitalEntities import HospitalEntities
+from Hospital import Hospital
 from constants import UNKNOWN_COMMAND_TRY_AGAIN, SESSION_END
 from functions import validate_input_value_from_client
 
-entities = HospitalEntities()
+entities = Hospital()
 app = UseCases(entities)
 
 while True:

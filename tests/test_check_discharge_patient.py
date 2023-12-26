@@ -1,11 +1,11 @@
 from UseCases import UseCases
-from HospitalEntities import HospitalEntities
+from Hospital import Hospital
 from constants import ERROR_THERE_IS_NOT_PATIENT_WITH_THIS_ID, TEXT, ERROR_VALUE_SHOULD_BE_UNSIGNED_INT
 from functions import generate_patients_with_statuses_from_zero_to_three
 
 
 class TestDischarge:
-    entities = HospitalEntities()
+    entities = Hospital()
     app = UseCases(entities)
 
     def test_len_of_patients_list(self):

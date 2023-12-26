@@ -1,24 +1,24 @@
 from unittest.mock import patch
-import HospitalEntities
+import Hospital
 from UseCases import UseCases
-from HospitalEntities import HospitalEntities
+from Hospital import Hospital
 from constants import (PATIENT_DISCHARGED, PATIENT_STATUS_READY_TO_DISCHARGE, ERROR_THERE_IS_NOT_PATIENT_WITH_THIS_ID,
                        YES, NO, ERROR_VALUE_SHOULD_BE_UNSIGNED_INT)
 from functions import generate_patients_with_statuses_from_zero_to_three
 
 
 class TestIncreaseStatusPatient:
-    entities = HospitalEntities()
+    entities = Hospital()
     app = UseCases(entities)
 
-    @patch.object(HospitalEntities, '_get_input')
+    @patch.object(Hospital, '_get_input')
     def test_ready_to_discharge_patient_from_database(self, mock_get_input):
         self.entities._list_of_patients = [3, 3, 3, 2, 0]
         mock_get_input.return_value = YES
         assert self.app.increase_status_patient(1) == PATIENT_DISCHARGED
         assert self.entities._list_of_patients == [3, 3, 2, 0]
 
-    @patch.object(HospitalEntities, '_get_input')
+    @patch.object(Hospital, '_get_input')
     def test_patient_not_ready_to_discharge(self, mock_get_input):
         self.entities._list_of_patients = [3, 3, 3, 2, 0]
         mock_get_input.return_value = NO
