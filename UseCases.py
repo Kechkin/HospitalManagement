@@ -1,11 +1,6 @@
-from constants import ZERO, PATIENT_STATUSES
+from Status import Status
+from constants import ZERO
 from functions import validate_patient_id
-
-
-class Status:
-    @staticmethod
-    def get_status_patient(status_id: int):
-        return PATIENT_STATUSES.get(status_id)
 
 
 class UseCases:
