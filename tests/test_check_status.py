@@ -1,27 +1,21 @@
-from UseCases import Status
-from constants import TEXT
+from Hospital import Hospital
 
 
 class TestStatus:
-    st = Status()
+    st = Hospital()
 
     def test_different_statuses(self):
-        assert self.st.get_status_patient(0) == 'Тяжело болен'
-        assert self.st.get_status_patient(1) == 'Болен'
-        assert self.st.get_status_patient(2) == 'Слегка болен'
-        assert self.st.get_status_patient(3) == 'Готов к выписке'
-
-    def test_empty_value(self):
-        try:
-            self.st.get_status_patient(None)
-        except Exception as error:
-            assert error.args[0] == "Status.get_status_patient() missing 1 required positional argument: 'status_id'"
+        self.st._list_of_patients = [0, 1, 2, 3]
+        assert self.st.get_status_name_by_patient_id(patient_id=1) == 'Тяжело болен'
+        assert self.st.get_status_name_by_patient_id(patient_id=2) == 'Болен'
+        assert self.st.get_status_name_by_patient_id(patient_id=3) == 'Слегка болен'
+        assert self.st.get_status_name_by_patient_id(patient_id=4) == 'Готов к выписке'
 
     def test_different_out_of_value_max(self):
-        assert self.st.get_status_patient(7) is None
+        self.st._list_of_patients = [0, 1, 10]
+        assert self.st.get_status_name_by_patient_id(patient_id=3) is None
 
     def test_different_out_of_value_min(self):
-        assert self.st.get_status_patient(-12) is None
+        self.st._list_of_patients = [0, 1, -10]
+        assert self.st.get_status_name_by_patient_id(3) is None
 
-    def test_text_value(self):
-        assert self.st.get_status_patient(TEXT) is None

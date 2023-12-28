@@ -17,6 +17,7 @@ class TestDecreasePatient:
         assert self.app.decrease_status_patient(TEXT) == ERROR_VALUE_SHOULD_BE_UNSIGNED_INT
 
     def test_value_below_zero(self):
+        self.entities._list_of_patients = [2, 1, 2, 0, 1]
         assert self.app.decrease_status_patient(-12) == ERROR_VALUE_SHOULD_BE_UNSIGNED_INT
 
     def test_max_id(self):

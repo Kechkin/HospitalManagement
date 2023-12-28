@@ -3,7 +3,7 @@ from Hospital import Hospital
 from functions import generate_patients_with_statuses_from_zero_to_three
 
 
-class TestCalculateStatistics:
+class TestCalculateTextStatistics:
     entities = Hospital()
     app = UseCases(entities)
 
@@ -37,10 +37,55 @@ class TestCalculateStatistics:
                                                                   'из них: \n')
 
     def test_different_statuses(self):
-        self.entities._list_of_patients = [1, 3, 1, 1, 1, 1, 0, 0, 2, 2, 2, 3, 3, 1, 1, 2, 2, 3, 0, 0]
+        self.entities._list_of_patients = [0, 0, 1, 1, 2, 2, 3, 3]
         assert self.app.show_calculated_hospital_statistics() == (
-            'В больнице на данный момент находится 20 чел., из них: \n'
-            '        в статусе "Тяжело болен": 4 чел. \n'
-            '        в статусе "Болен": 7 чел. \n'
-            '        в статусе "Слегка болен": 5 чел. \n'
-            '        в статусе "Готов к выписке": 4 чел. \n')
+            'В больнице на данный момент находится 8 чел., из них: \n'
+            '        в статусе "Тяжело болен": 2 чел. \n'
+            '        в статусе "Болен": 2 чел. \n'
+            '        в статусе "Слегка болен": 2 чел. \n'
+            '        в статусе "Готов к выписке": 2 чел. \n')
+
+
+class TestCalculateValuesDataStatistic:
+    entities = Hospital()
+    app = UseCases(entities)
+
+    def test_calculate_statuses(self):
+        self.entities._list_of_patients = [0, 0, 1, 1, 2, 2, 3, 3]
+        assert self.entities.get_calculated_statistics() == {'Болен': 2, 'Готов к выписке': 2,
+                                                             'Слегка болен': 2, 'Тяжело болен': 2}
+
+    def test_calculate_empty_list(self):
+        self.entities._list_of_patients = []
+        assert self.entities.get_calculated_statistics() == {'Болен': 0, 'Готов к выписке': 0,
+                                                             'Слегка болен': 0, 'Тяжело болен': 0}
+
+    def test_calculate_status_number_zero(self):
+        self.entities._list_of_patients = [0, 0]
+        assert self.entities.get_calculated_statistics() == {'Болен': 0, 'Готов к выписке': 0,
+                                                             'Слегка болен': 0, 'Тяжело болен': 2}
+
+    def test_calculate_status_number_one(self):
+        self.entities._list_of_patients = [1, 1]
+        assert self.entities.get_calculated_statistics() == {'Болен': 2, 'Готов к выписке': 0,
+                                                             'Слегка болен': 0, 'Тяжело болен': 0}
+
+    def test_calculate_status_number_two(self):
+        self.entities._list_of_patients = [2, 2]
+        assert self.entities.get_calculated_statistics() == {'Болен': 0, 'Готов к выписке': 0,
+                                                             'Слегка болен': 2, 'Тяжело болен': 0}
+
+    def test_calculate_status_number_three(self):
+        self.entities._list_of_patients = [3, 3]
+        assert self.entities.get_calculated_statistics() == {'Болен': 0, 'Готов к выписке': 2,
+                                                             'Слегка болен': 0, 'Тяжело болен': 0}
+
+    def test_calculate_status_where_text_instead_number(self):
+        self.entities._list_of_patients = ['text', 2]
+        assert self.entities.get_calculated_statistics() == {'Болен': 0, 'Готов к выписке': 0,
+                                                             'Слегка болен': 1, 'Тяжело болен': 0}
+
+    def test_calculate_status_where_number_below_zero(self):
+        self.entities._list_of_patients = [-12, 2]
+        assert self.entities.get_calculated_statistics() == {'Болен': 0, 'Готов к выписке': 0,
+                                                             'Слегка болен': 1, 'Тяжело болен': 0}
