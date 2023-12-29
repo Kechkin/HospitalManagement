@@ -1,5 +1,5 @@
 from constants import ZERO, ERROR_VALUE_SHOULD_BE_UNSIGNED_INT, ERROR_THERE_IS_NOT_PATIENT_WITH_THIS_ID, THREE, YES, \
-    PATIENT_STATUS_READY_TO_DISCHARGE, PATIENT_DISCHARGED, ERROR_CANNOT_INCREASE_HIGH_STATUS
+    PATIENT_STATUS_READY_TO_DISCHARGE, PATIENT_DISCHARGED, ERROR_CANNOT_DECREASE_LOW_STATUS
 from exception import ExceptionNoPatientInHospital, ExceptionPositiveIntValue
 
 
@@ -14,11 +14,10 @@ class UseCases:
     def _get_input(text):
         return input(text)
 
-    def _validate_patient_id(self, patient_id: int):
+    @staticmethod
+    def _validate_patient_id(patient_id: int):
         if not isinstance(patient_id, int) or patient_id < ZERO:
             raise ExceptionPositiveIntValue(ERROR_VALUE_SHOULD_BE_UNSIGNED_INT)
-        elif patient_id > self.ent.get_count_of_patients():
-            raise ExceptionNoPatientInHospital(ERROR_THERE_IS_NOT_PATIENT_WITH_THIS_ID)
 
     def get_status_patient(self, patient_id):
         try:
@@ -31,13 +30,13 @@ class UseCases:
     def increase_status_patient(self, patient_id):
         try:
             self._validate_patient_id(patient_id=patient_id)
-            result = self.ent.increase(patient_id=patient_id)
-            if result == ERROR_CANNOT_INCREASE_HIGH_STATUS:
+            if self.ent.can_increase_status_patient_id(patient_id=patient_id) is False:
                 self.client_answer = self._get_input('Желаете этого клиента выписать? (да/нет):')
                 if self.client_answer == YES:
                     self.ent.discharge(patient_id=patient_id)
                     return PATIENT_DISCHARGED
                 return PATIENT_STATUS_READY_TO_DISCHARGE
+            self.ent.increase_status(patient_id=patient_id)
             status_name = self.ent.get_status_name_by_patient_id(patient_id=patient_id)
             return f'Новый статус пациента: {status_name}'
         except (ExceptionNoPatientInHospital, ExceptionPositiveIntValue) as error:
@@ -46,11 +45,11 @@ class UseCases:
     def decrease_status_patient(self, patient_id):
         try:
             self._validate_patient_id(patient_id=patient_id)
-            decrease_result = self.ent.decrease(patient_id=patient_id)
-            if not decrease_result:
-                status_name = self.ent.get_status_name_by_patient_id(patient_id=patient_id)
-                return f'Новый статус пациента: {status_name}'
-            return decrease_result
+            if self.ent.can_decrease_status_patient_id(patient_id=patient_id) is False:
+                return ERROR_CANNOT_DECREASE_LOW_STATUS
+            self.ent.decrease_status(patient_id=patient_id)
+            status_name = self.ent.get_status_name_by_patient_id(patient_id=patient_id)
+            return f'Новый статус пациента: {status_name}'
         except (ExceptionNoPatientInHospital, ExceptionPositiveIntValue) as error:
             return error.args[0]
 

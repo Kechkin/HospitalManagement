@@ -13,8 +13,6 @@ PATIENT_DISCHARGED: str = 'Пациент выписан из больницы'
 ERROR_THERE_IS_NO_PATIENT_ID: str = 'Ошибка. Такого пациента нет'
 ERROR_INPUT_UNSIGNED_INT: str = 'Ошибка. Вводите число'
 ERROR_EMPTY_VALUE_INPUT_UNSIGNED_INT: str = 'Ошибка. Пустое значение, введите число'
-ERROR_CANNOT_INCREASE_HIGH_STATUS: str = 'Нельзя повысить самый высокий статус'
-
 
 YES: str = 'да'
 NO: str = 'нет'
