@@ -1,60 +1,71 @@
-from constants import ZERO, ERROR_VALUE_SHOULD_BE_UNSIGNED_INT, ERROR_THERE_IS_NOT_PATIENT_WITH_THIS_ID
+from constants import ZERO, ERROR_VALUE_SHOULD_BE_UNSIGNED_INT, ERROR_THERE_IS_NOT_PATIENT_WITH_THIS_ID, THREE, YES, \
+    PATIENT_STATUS_READY_TO_DISCHARGE, PATIENT_DISCHARGED
+from exception import ExceptionNoPatientInHospital, ExceptionPositiveIntValue
 
 
 class UseCases:
     ent = None
+    client_answer = None
 
     def __init__(self, entities):
         self.ent = entities
 
-    def _get_new_patient_status(self, patient_id):
-        status_name = self.ent.get_status_name_by_patient_id(patient_id=patient_id)
-        return f'Новый статус пациента: {status_name}'
+    @staticmethod
+    def _get_input(text):
+        return input(text)
+
+    def _validate_patient_id(self, patient_id):
+        if not isinstance(patient_id, int) or patient_id < ZERO:
+            raise ExceptionPositiveIntValue(ERROR_VALUE_SHOULD_BE_UNSIGNED_INT)
+        elif patient_id > self.ent.get_count_of_patients():
+            raise ExceptionNoPatientInHospital(ERROR_THERE_IS_NOT_PATIENT_WITH_THIS_ID)
 
     def get_status_patient(self, patient_id):
         try:
+            self._validate_patient_id(patient_id=patient_id)
             status_name = self.ent.get_status_name_by_patient_id(patient_id=patient_id)
             return f'Статус пациента: {status_name}'
-        except TypeError:
-            return ERROR_VALUE_SHOULD_BE_UNSIGNED_INT
-        except IndexError:
-            return ERROR_THERE_IS_NOT_PATIENT_WITH_THIS_ID
+        except (ExceptionNoPatientInHospital, ExceptionPositiveIntValue) as error:
+            return error.args[0]
 
     def increase_status_patient(self, patient_id):
         try:
-            increase_result = self.ent.increase(patient_id=patient_id)
-            if not increase_result:
-                return self._get_new_patient_status(patient_id=patient_id)
-        except TypeError:
-            return ERROR_VALUE_SHOULD_BE_UNSIGNED_INT
-        except IndexError:
-            return ERROR_THERE_IS_NOT_PATIENT_WITH_THIS_ID
-        else:
-            return increase_result
+            self._validate_patient_id(patient_id=patient_id)
+            result = self.ent.increase(patient_id=patient_id)
+            if result:
+                self.client_answer = self._get_input('Желаете этого клиента выписать? (да/нет):')
+                if self.client_answer == YES:
+                    self.ent.discharge(patient_id=patient_id)
+                    return PATIENT_DISCHARGED
+                return PATIENT_STATUS_READY_TO_DISCHARGE
+            status_name = self.ent.get_status_name_by_patient_id(patient_id=patient_id)
+            return f'Новый статус пациента: {status_name}'
+        except (ExceptionNoPatientInHospital, ExceptionPositiveIntValue) as error:
+            return error.args[0]
 
     def decrease_status_patient(self, patient_id):
         try:
+            self._validate_patient_id(patient_id=patient_id)
             decrease_result = self.ent.decrease(patient_id=patient_id)
             if not decrease_result:
-                return self._get_new_patient_status(patient_id=patient_id)
-        except TypeError:
-            return ERROR_VALUE_SHOULD_BE_UNSIGNED_INT
-        except IndexError:
-            return ERROR_THERE_IS_NOT_PATIENT_WITH_THIS_ID
-        else:
+                status_name = self.ent.get_status_name_by_patient_id(patient_id=patient_id)
+                return f'Новый статус пациента: {status_name}'
             return decrease_result
+        except (ExceptionNoPatientInHospital, ExceptionPositiveIntValue) as error:
+            return error.args[0]
 
     def discharge_patient_from_list(self, patient_id):
         try:
-            return self.ent.discharge(patient_id=patient_id)
-        except TypeError:
-            return ERROR_VALUE_SHOULD_BE_UNSIGNED_INT
-        except IndexError:
-            return ERROR_THERE_IS_NOT_PATIENT_WITH_THIS_ID
+            self._validate_patient_id(patient_id=patient_id)
+            self.ent.discharge(patient_id=patient_id)
+            return PATIENT_DISCHARGED
+        except (ExceptionNoPatientInHospital, ExceptionPositiveIntValue) as error:
+            return error.args[0]
 
     def show_calculated_hospital_statistics(self):
         calculated_statistics_data = self.ent.get_calculated_statistics()
-        result = f'В больнице на данный момент находится {len(self.ent.list_of_patients)} чел., из них: \n'
+        count_patients = self.ent.get_count_of_patients()
+        result = f'В больнице на данный момент находится {count_patients} чел., из них: \n'
         for k, v in calculated_statistics_data.items():
             if v != ZERO:
                 result += f'        в статусе "{k}": {v} чел. \n'

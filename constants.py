@@ -4,13 +4,6 @@ TWO: int = 2
 THREE: int = 3
 DEFAULT_COUNT_PATIENTS: int = 200
 
-PATIENT_STATUSES: dict = {
-    0: 'Тяжело болен',
-    1: 'Болен',
-    2: 'Слегка болен',
-    3: 'Готов к выписке'
-}
-
 ERROR_VALUE_SHOULD_BE_UNSIGNED_INT: str = 'Ошибка. ID пациента должно быть числом (целым, положительным)'
 ERROR_CANNOT_DECREASE_LOW_STATUS: str = 'Ошибка. Нельзя понизить самый низкий статус (наши пациенты не умирают)'
 ERROR_THERE_IS_NOT_PATIENT_WITH_THIS_ID: str = 'Ошибка. В больнице нет пациента с таким ID'

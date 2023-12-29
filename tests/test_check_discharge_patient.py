@@ -14,6 +14,7 @@ class TestDischarge:
         assert self.entities._list_of_patients == [1, 2]
 
     def test_empty_list(self):
+        self.entities._list_of_patients = [1, 2, 1]
         assert self.app.discharge_patient_from_list(100) == ERROR_THERE_IS_NOT_PATIENT_WITH_THIS_ID
 
     def test_input_text(self):
