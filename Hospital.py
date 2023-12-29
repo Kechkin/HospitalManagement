@@ -1,4 +1,4 @@
-from constants import ZERO, ERROR_CANNOT_DECREASE_LOW_STATUS, THREE, ONE, TWO
+from constants import ZERO, ERROR_CANNOT_DECREASE_LOW_STATUS, THREE, ONE, TWO, ERROR_CANNOT_INCREASE_HIGH_STATUS
 from functions import generate_patients_with_statuses_from_zero_to_three
 
 
@@ -12,18 +12,15 @@ class Hospital:
         self._list_of_patients.pop(patient_id - 1)
 
     def decrease(self, patient_id: int):
-        if self._get_status_number_by_patient_id(patient_id=patient_id) == ZERO:
+        if self._list_of_patients[patient_id - 1] == ZERO:
             return ERROR_CANNOT_DECREASE_LOW_STATUS
         else:
             self._list_of_patients[patient_id - 1] -= 1
 
     def increase(self, patient_id: int):
-        if self._get_status_number_by_patient_id(patient_id=patient_id) == THREE:
-            return True
+        if self._list_of_patients[patient_id - 1] == THREE:
+            return ERROR_CANNOT_INCREASE_HIGH_STATUS
         self._list_of_patients[patient_id - 1] += 1
-
-    def _get_status_number_by_patient_id(self, patient_id: int):
-        return self._list_of_patients[patient_id - 1]
 
     def get_status_name_by_patient_id(self, patient_id: int):
         patient_statuses: dict = {
@@ -32,7 +29,7 @@ class Hospital:
             2: 'Слегка болен',
             3: 'Готов к выписке'
         }
-        status_id = self._get_status_number_by_patient_id(patient_id=patient_id)
+        status_id = self._list_of_patients[patient_id - 1]
         new_patients_status = patient_statuses.get(status_id)
         return new_patients_status
 

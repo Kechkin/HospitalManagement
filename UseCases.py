@@ -1,5 +1,5 @@
 from constants import ZERO, ERROR_VALUE_SHOULD_BE_UNSIGNED_INT, ERROR_THERE_IS_NOT_PATIENT_WITH_THIS_ID, THREE, YES, \
-    PATIENT_STATUS_READY_TO_DISCHARGE, PATIENT_DISCHARGED
+    PATIENT_STATUS_READY_TO_DISCHARGE, PATIENT_DISCHARGED, ERROR_CANNOT_INCREASE_HIGH_STATUS
 from exception import ExceptionNoPatientInHospital, ExceptionPositiveIntValue
 
 
@@ -32,7 +32,7 @@ class UseCases:
         try:
             self._validate_patient_id(patient_id=patient_id)
             result = self.ent.increase(patient_id=patient_id)
-            if result:
+            if result == ERROR_CANNOT_INCREASE_HIGH_STATUS:
                 self.client_answer = self._get_input('Желаете этого клиента выписать? (да/нет):')
                 if self.client_answer == YES:
                     self.ent.discharge(patient_id=patient_id)
