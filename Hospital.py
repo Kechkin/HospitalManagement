@@ -1,5 +1,5 @@
-from constants import ZERO, THREE, ONE, TWO, ERROR_THERE_IS_NOT_PATIENT_WITH_THIS_ID
-from exception import ExceptionNoPatientInHospital
+from constants import ZERO, THREE, ONE, TWO, ERROR_THERE_IS_NOT_PATIENT_WITH_THIS_ID, ERROR_VALUE_SHOULD_BE_UNSIGNED_INT
+from exception import ExceptionNoPatientInHospital, ExceptionPositiveIntValue
 from functions import generate_patients_with_statuses_from_zero_to_three
 
 
@@ -9,6 +9,8 @@ class Hospital:
     def __validate_exists_patient_id(self, patient_id):
         if patient_id > self.get_count_of_patients():
             raise ExceptionNoPatientInHospital(ERROR_THERE_IS_NOT_PATIENT_WITH_THIS_ID)
+        elif patient_id < ZERO:
+            raise ExceptionPositiveIntValue(ERROR_VALUE_SHOULD_BE_UNSIGNED_INT)
 
     def get_count_of_patients(self):
         return len(self._list_of_patients)

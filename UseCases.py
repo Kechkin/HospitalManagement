@@ -1,5 +1,5 @@
-from constants import ZERO, ERROR_VALUE_SHOULD_BE_UNSIGNED_INT, ERROR_THERE_IS_NOT_PATIENT_WITH_THIS_ID, THREE, YES, \
-    PATIENT_STATUS_READY_TO_DISCHARGE, PATIENT_DISCHARGED, ERROR_CANNOT_DECREASE_LOW_STATUS
+from constants import (ZERO, ERROR_VALUE_SHOULD_BE_UNSIGNED_INT, YES, PATIENT_STATUS_READY_TO_DISCHARGE,
+                       PATIENT_DISCHARGED, ERROR_CANNOT_DECREASE_LOW_STATUS)
 from exception import ExceptionNoPatientInHospital, ExceptionPositiveIntValue
 
 
@@ -16,7 +16,7 @@ class UseCases:
 
     @staticmethod
     def _validate_patient_id(patient_id: int):
-        if not isinstance(patient_id, int) or patient_id < ZERO:
+        if not isinstance(patient_id, int):
             raise ExceptionPositiveIntValue(ERROR_VALUE_SHOULD_BE_UNSIGNED_INT)
 
     def get_status_patient(self, patient_id):
