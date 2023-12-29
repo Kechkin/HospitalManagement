@@ -6,7 +6,7 @@ from functions import generate_patients_with_statuses_from_zero_to_three
 class Hospital:
     _list_of_patients = generate_patients_with_statuses_from_zero_to_three(200, 1)
 
-    def __validate_patient_id_in_list(self, patient_id):
+    def __validate_exists_patient_id(self, patient_id):
         if patient_id > self.get_count_of_patients():
             raise ExceptionNoPatientInHospital(ERROR_THERE_IS_NOT_PATIENT_WITH_THIS_ID)
 
@@ -14,29 +14,29 @@ class Hospital:
         return len(self._list_of_patients)
 
     def discharge(self, patient_id: int):
-        self.__validate_patient_id_in_list(patient_id=patient_id)
+        self.__validate_exists_patient_id(patient_id=patient_id)
         self._list_of_patients.pop(patient_id - 1)
 
     def can_decrease_status_patient_id(self, patient_id: int):
-        self.__validate_patient_id_in_list(patient_id=patient_id)
+        self.__validate_exists_patient_id(patient_id=patient_id)
         if self._list_of_patients[patient_id - 1] == ZERO:
             return False
 
     def decrease_status(self, patient_id: int):
-        self.__validate_patient_id_in_list(patient_id=patient_id)
+        self.__validate_exists_patient_id(patient_id=patient_id)
         self._list_of_patients[patient_id - 1] -= 1
 
     def can_increase_status_patient_id(self, patient_id: int):
-        self.__validate_patient_id_in_list(patient_id=patient_id)
+        self.__validate_exists_patient_id(patient_id=patient_id)
         if self._list_of_patients[patient_id - 1] == THREE:
             return False
 
     def increase_status(self, patient_id: int):
-        self.__validate_patient_id_in_list(patient_id=patient_id)
+        self.__validate_exists_patient_id(patient_id=patient_id)
         self._list_of_patients[patient_id - 1] += 1
 
     def get_status_name_by_patient_id(self, patient_id: int):
-        self.__validate_patient_id_in_list(patient_id=patient_id)
+        self.__validate_exists_patient_id(patient_id=patient_id)
         patient_statuses: dict = {
             0: 'Тяжело болен',
             1: 'Болен',
