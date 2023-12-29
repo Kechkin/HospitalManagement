@@ -14,7 +14,7 @@ class UseCases:
     def _get_input(text):
         return input(text)
 
-    def _validate_patient_id(self, patient_id):
+    def _validate_patient_id(self, patient_id: int):
         if not isinstance(patient_id, int) or patient_id < ZERO:
             raise ExceptionPositiveIntValue(ERROR_VALUE_SHOULD_BE_UNSIGNED_INT)
         elif patient_id > self.ent.get_count_of_patients():
@@ -54,7 +54,7 @@ class UseCases:
         except (ExceptionNoPatientInHospital, ExceptionPositiveIntValue) as error:
             return error.args[0]
 
-    def discharge_patient_from_list(self, patient_id):
+    def discharge_patient(self, patient_id):
         try:
             self._validate_patient_id(patient_id=patient_id)
             self.ent.discharge(patient_id=patient_id)

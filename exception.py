@@ -7,7 +7,7 @@ class ExceptionPositiveIntValue(Exception):
 
     def __str__(self):
         if self.message:
-            return f'{self.message}'
+            return self.message
 
 
 class ExceptionNoPatientInHospital(Exception):
@@ -19,4 +19,4 @@ class ExceptionNoPatientInHospital(Exception):
 
     def __str__(self):
         if self.message:
-            return f'{self.message}'
+            return self.message

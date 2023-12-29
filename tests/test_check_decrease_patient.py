@@ -9,25 +9,25 @@ class TestDecreasePatient:
     app = UseCases(entities)
 
     def test_decrease_patient(self):
-        self.entities._list_of_patients = [2, 1, 2, 0, 1]
+        self.entities._list_of_patients = [2, 1, 2]
         assert self.app.decrease_status_patient(2) == 'Новый статус пациента: Тяжело болен'
-        assert self.entities._list_of_patients == [2, 0, 2, 0, 1]
+        assert self.entities._list_of_patients == [2, 0, 2]
 
     def test_text_instead_number(self):
         assert self.app.decrease_status_patient(TEXT) == ERROR_VALUE_SHOULD_BE_UNSIGNED_INT
 
     def test_value_below_zero(self):
-        self.entities._list_of_patients = [2, 1, 2, 0, 1]
+        self.entities._list_of_patients = [2, 1, 2]
         assert self.app.decrease_status_patient(-12) == ERROR_VALUE_SHOULD_BE_UNSIGNED_INT
 
     def test_max_id(self):
         assert self.app.decrease_status_patient(224) == ERROR_THERE_IS_NOT_PATIENT_WITH_THIS_ID
 
     def test_double_decrease(self):
-        self.entities._list_of_patients = [2, 1, 2, 0, 1]
+        self.entities._list_of_patients = [2, 1, 2,]
         self.app.decrease_status_patient(2)
         assert self.app.decrease_status_patient(2) == ERROR_CANNOT_DECREASE_LOW_STATUS
-        assert self.entities._list_of_patients == [2, 0, 2, 0, 1]
+        assert self.entities._list_of_patients == [2, 0, 2]
 
     def test_empty_value(self):
         assert self.app.decrease_status_patient(None) == ERROR_VALUE_SHOULD_BE_UNSIGNED_INT
@@ -44,5 +44,5 @@ class TestDecreasePatient:
         assert self.entities._list_of_patients == [3, 2, 3, 2, 0]
 
     def test_max_decrease(self):
-        self.entities._list_of_patients = [3, 2, 3, 2, 0]
-        assert self.app.decrease_status_patient(5) == ERROR_CANNOT_DECREASE_LOW_STATUS
+        self.entities._list_of_patients = [3, 2, 0]
+        assert self.app.decrease_status_patient(3) == ERROR_CANNOT_DECREASE_LOW_STATUS

@@ -35,7 +35,7 @@ while True:
         patient_id = input('Введите ID пациента: ')
         patient_id_validated = validate_input_value_from_client(patient_id)
         if patient_id_validated:
-            print(app.discharge_patient_from_list(patient_id_validated))
+            print(app.discharge_patient(patient_id_validated))
 
     elif answer in ['рассчитать статистику', 'calculate statistics']:
         print(app.show_calculated_hospital_statistics())

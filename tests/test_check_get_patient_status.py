@@ -9,11 +9,11 @@ class TestGetPatientStatus:
     app = UseCases(entities)
 
     def test_patient_status(self):
-        self.entities._list_of_patients = generate_patients_with_statuses_from_zero_to_three(30, 2)
-        assert self.app.get_status_patient(15) == 'Статус пациента: Слегка болен'
+        self.entities._list_of_patients = [2, 2, 2, 2]
+        assert self.app.get_status_patient(4) == 'Статус пациента: Слегка болен'
 
     def test_different_statuses(self):
-        self.entities._list_of_patients = generate_patients_with_statuses_from_zero_to_three(4, 3)
+        self.entities._list_of_patients = [3, 3, 3]
         assert self.app.get_status_patient(2) == 'Статус пациента: Готов к выписке'
 
         self.app.decrease_status_patient(2)
@@ -26,14 +26,14 @@ class TestGetPatientStatus:
         assert self.app.get_status_patient(2) == 'Статус пациента: Тяжело болен'
 
     def test_input_text(self):
-        self.entities._list_of_patients = generate_patients_with_statuses_from_zero_to_three(2, 3)
+        self.entities._list_of_patients = [3, 3]
         assert self.app.get_status_patient(TEXT) == ERROR_VALUE_SHOULD_BE_UNSIGNED_INT
 
     def test_input_empty_value(self):
-        self.entities._list_of_patients = generate_patients_with_statuses_from_zero_to_three(2, 3)
+        self.entities._list_of_patients = [3, 3]
         assert self.app.get_status_patient(None) == ERROR_VALUE_SHOULD_BE_UNSIGNED_INT
 
     def test_error_values(self):
-        self.entities._list_of_patients = generate_patients_with_statuses_from_zero_to_three(10, 3)
+        self.entities._list_of_patients = [3, 3, 2]
         assert self.app.get_status_patient(-10) == ERROR_VALUE_SHOULD_BE_UNSIGNED_INT
         assert self.app.get_status_patient(11) == ERROR_THERE_IS_NOT_PATIENT_WITH_THIS_ID

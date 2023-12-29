@@ -14,8 +14,7 @@ class Hospital:
     def decrease(self, patient_id: int):
         if self._list_of_patients[patient_id - 1] == ZERO:
             return ERROR_CANNOT_DECREASE_LOW_STATUS
-        else:
-            self._list_of_patients[patient_id - 1] -= 1
+        self._list_of_patients[patient_id - 1] -= 1
 
     def increase(self, patient_id: int):
         if self._list_of_patients[patient_id - 1] == THREE:

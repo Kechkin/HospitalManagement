@@ -1,6 +1,5 @@
 from UseCases import UseCases
 from Hospital import Hospital
-from functions import generate_patients_with_statuses_from_zero_to_three
 
 
 class TestCalculateTextStatistics:
@@ -8,31 +7,31 @@ class TestCalculateTextStatistics:
     app = UseCases(entities)
 
     def test_calculate(self):
-        self.entities._list_of_patients = [1, 1, 1, 1, 1]
+        self.entities._list_of_patients = [1, 1, 1]
         assert self.app.show_calculated_hospital_statistics() == (
-            'В больнице на данный момент находится 5 чел., из них: \n'
-            '        в статусе "Болен": 5 чел. \n')
+            'В больнице на данный момент находится 3 чел., из них: \n'
+            '        в статусе "Болен": 3 чел. \n')
 
     def test_patient_with_status_zero(self):
-        self.entities._list_of_patients = generate_patients_with_statuses_from_zero_to_three(5, 0)
+        self.entities._list_of_patients = [0, 0, 0]
         assert self.app.show_calculated_hospital_statistics() == (
-            'В больнице на данный момент находится 5 чел., из них: \n'
-            '        в статусе "Тяжело болен": 5 чел. \n')
+            'В больнице на данный момент находится 3 чел., из них: \n'
+            '        в статусе "Тяжело болен": 3 чел. \n')
 
     def test_patient_with_status_three(self):
-        self.entities._list_of_patients = generate_patients_with_statuses_from_zero_to_three(5, 3)
+        self.entities._list_of_patients = [3, 3, 3]
         assert self.app.show_calculated_hospital_statistics(), (
-            'В больнице на данный момент находится 5 чел., из них: \n'
-            '        в статусе "Готов к выписке": 5 чел. \n')
+            'В больнице на данный момент находится 3 чел., из них: \n'
+            '        в статусе "Готов к выписке": 3 чел. \n')
 
     def test_patient_with_status_two(self):
-        self.entities._list_of_patients = generate_patients_with_statuses_from_zero_to_three(5, 2)
+        self.entities._list_of_patients = [2, 2, 2]
         assert self.app.show_calculated_hospital_statistics() == (
-            'В больнице на данный момент находится 5 чел., из них: \n'
-            '        в статусе "Слегка болен": 5 чел. \n')
+            'В больнице на данный момент находится 3 чел., из них: \n'
+            '        в статусе "Слегка болен": 3 чел. \n')
 
     def test_empty_list(self):
-        self.entities._list_of_patients = generate_patients_with_statuses_from_zero_to_three(0, 2)
+        self.entities._list_of_patients = []
         assert self.app.show_calculated_hospital_statistics() == ('В больнице на данный момент находится 0 чел., '
                                                                   'из них: \n')
 
