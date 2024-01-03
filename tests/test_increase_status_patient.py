@@ -49,7 +49,7 @@ class TestCanIncreaseStatus:
     entities = Hospital()
     app = UseCases(entities)
 
-    def test_can_increase_status(self):
+    def test_can_not_increase_status_patient_id_get_false(self):
         self.entities._list_of_patients = [3, 2, 1]
         assert self.entities.can_increase_status_patient_id(patient_id=1) is False
 
