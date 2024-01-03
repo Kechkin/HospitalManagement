@@ -37,9 +37,22 @@ class TestIncreaseStatusPatient:
         assert self.app.increase_status_patient('') == ERROR_VALUE_SHOULD_BE_UNSIGNED_INT
 
     def test_min_value(self):
-        self.app._list_of_patients = [2, 2, 2, 2]
+        self.entities._list_of_patients = [2, 2, 2, 2]
         assert self.app.increase_status_patient(-12) == ERROR_VALUE_SHOULD_BE_UNSIGNED_INT
 
     def test_max_value(self):
-        self.app._list_of_patients = [2, 2, 2, 2]
+        self.entities._list_of_patients = [2, 2, 2, 2]
         assert self.app.increase_status_patient(22) == ERROR_THERE_IS_NOT_PATIENT_WITH_THIS_ID
+
+
+class TestCanIncreaseStatus:
+    entities = Hospital()
+    app = UseCases(entities)
+
+    def test_can_increase_status(self):
+        self.entities._list_of_patients = [3, 2, 1]
+        assert self.entities.can_increase_status_patient_id(patient_id=1) is False
+
+    def test_can_increase_status_get_none(self):
+        self.entities._list_of_patients = [2, 2, 1]
+        assert self.entities.can_increase_status_patient_id(patient_id=1) is None

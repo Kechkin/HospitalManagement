@@ -24,7 +24,7 @@ class TestDecreasePatient:
         assert self.app.decrease_status_patient(224) == ERROR_THERE_IS_NOT_PATIENT_WITH_THIS_ID
 
     def test_double_decrease(self):
-        self.entities._list_of_patients = [2, 1, 2,]
+        self.entities._list_of_patients = [2, 1, 2, ]
         self.app.decrease_status_patient(2)
         assert self.app.decrease_status_patient(2) == ERROR_CANNOT_DECREASE_LOW_STATUS
         assert self.entities._list_of_patients == [2, 0, 2]
@@ -46,3 +46,16 @@ class TestDecreasePatient:
     def test_max_decrease(self):
         self.entities._list_of_patients = [3, 2, 0]
         assert self.app.decrease_status_patient(3) == ERROR_CANNOT_DECREASE_LOW_STATUS
+
+
+class TestCanDecreaseStatus:
+    entities = Hospital()
+    app = UseCases(entities)
+
+    def test_can_decrease_status_patient_id(self):
+        self.entities._list_of_patients = [0, 2, 1]
+        assert self.entities.can_decrease_status_patient_id(patient_id=1) is False
+
+    def test_can_increase_status_get_none(self):
+        self.entities._list_of_patients = [3, 1, 2]
+        assert self.entities.can_decrease_status_patient_id(patient_id=1) is None
