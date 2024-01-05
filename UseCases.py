@@ -27,22 +27,28 @@ class UseCases:
         except (ExceptionNoPatientInHospital, ExceptionPositiveIntValue) as error:
             return error.args[0]
 
-    def increase_status_patient(self, patient_id):
+    def _ask_client_to_discharge_patient(self, patient_id):
+        self.client_answer = self._get_input('Желаете этого клиента выписать? (да/нет):')
+        return self._get_status_from_client_answer(patient_id=patient_id,
+                                                   client_answer=self.client_answer)
+
+    def _get_status_from_client_answer(self, patient_id, client_answer):
+        if client_answer == YES:
+            return self.get_discharge_patient_status(patient_id=patient_id)
+        return PATIENT_STATUS_READY_TO_DISCHARGE
+
+    def get_increase_new_status_patient(self, patient_id):
         try:
             self._validate_patient_id(patient_id=patient_id)
             if self.ent.can_increase_status_patient_id(patient_id=patient_id) is False:
-                self.client_answer = self._get_input('Желаете этого клиента выписать? (да/нет):')
-                if self.client_answer == YES:
-                    self.ent.discharge(patient_id=patient_id)
-                    return PATIENT_DISCHARGED
-                return PATIENT_STATUS_READY_TO_DISCHARGE
+                return self._ask_client_to_discharge_patient(patient_id=patient_id)
             self.ent.increase_status(patient_id=patient_id)
             status_name = self.ent.get_status_name_by_patient_id(patient_id=patient_id)
             return f'Новый статус пациента: {status_name}'
         except (ExceptionNoPatientInHospital, ExceptionPositiveIntValue) as error:
             return error.args[0]
 
-    def decrease_status_patient(self, patient_id):
+    def get_decrease_new_status_patient(self, patient_id):
         try:
             self._validate_patient_id(patient_id=patient_id)
             if self.ent.can_decrease_status_patient_id(patient_id=patient_id) is False:
@@ -53,7 +59,7 @@ class UseCases:
         except (ExceptionNoPatientInHospital, ExceptionPositiveIntValue) as error:
             return error.args[0]
 
-    def discharge_patient(self, patient_id):
+    def get_discharge_patient_status(self, patient_id):
         try:
             self._validate_patient_id(patient_id=patient_id)
             self.ent.discharge(patient_id=patient_id)
