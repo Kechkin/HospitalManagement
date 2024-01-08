@@ -1,4 +1,3 @@
-import io
 from unittest.mock import patch
 
 from UseCases import UseCases
@@ -18,15 +17,21 @@ class TestDecreasePatient:
         mock_print.assert_called_with('Новый статус пациента: Тяжело болен')
         assert self.entities._list_of_patients == [2, 0, 2]
 
-    def test_text_instead_number(self):
-        assert self.app.decrease_status_patient(TEXT) == ERROR_VALUE_SHOULD_BE_UNSIGNED_INT
+    @patch('builtins.print')
+    def test_text_instead_number(self, mock_print):
+        self.app.decrease_status_patient(TEXT)
+        mock_print.assert_called_with(ERROR_VALUE_SHOULD_BE_UNSIGNED_INT)
 
-    def test_value_below_zero(self):
+    @patch('builtins.print')
+    def test_value_below_zero(self, mock_print):
         self.entities._list_of_patients = [2, 1, 2]
-        assert self.app.decrease_status_patient(-12) == ERROR_VALUE_SHOULD_BE_UNSIGNED_INT
+        self.app.decrease_status_patient(-12)
+        mock_print.assert_called_with(ERROR_VALUE_SHOULD_BE_UNSIGNED_INT)
 
-    def test_max_id(self):
-        assert self.app.decrease_status_patient(224) == ERROR_THERE_IS_NOT_PATIENT_WITH_THIS_ID
+    @patch('builtins.print')
+    def test_max_id(self, mock_print):
+        self.app.decrease_status_patient(224)
+        mock_print.assert_called_with(ERROR_THERE_IS_NOT_PATIENT_WITH_THIS_ID)
 
     @patch('builtins.print')
     def test_double_decrease(self, mock_print):
@@ -36,8 +41,10 @@ class TestDecreasePatient:
         mock_print.assert_called_with(ERROR_CANNOT_DECREASE_LOW_STATUS)
         assert self.entities._list_of_patients == [2, 0, 2]
 
-    def test_empty_value(self):
-        assert self.app.decrease_status_patient(None) == ERROR_VALUE_SHOULD_BE_UNSIGNED_INT
+    @patch('builtins.print')
+    def test_empty_value(self, mock_print):
+        self.app.decrease_status_patient(None)
+        mock_print.assert_called_with(ERROR_VALUE_SHOULD_BE_UNSIGNED_INT)
 
     @patch('builtins.print')
     def test_decrease_from_max_to_min_status(self, mock_print):

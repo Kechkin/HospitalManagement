@@ -40,20 +40,27 @@ class TestIncreaseStatusPatient:
         mock_print.assert_called_with('Новый статус пациента: Готов к выписке')
         assert self.entities._list_of_patients == [3, 1, 3]
 
-    def test_string_number(self):
-        assert self.app.increase_status_patient('12') == ERROR_VALUE_SHOULD_BE_UNSIGNED_INT
+    @patch('builtins.print')
+    def test_string_number(self, mock_print):
+        self.app.increase_status_patient('12')
+        mock_print.assert_called_with(ERROR_VALUE_SHOULD_BE_UNSIGNED_INT)
 
-    def test_empty_value(self):
-        assert self.app.increase_status_patient('') == ERROR_VALUE_SHOULD_BE_UNSIGNED_INT
+    @patch('builtins.print')
+    def test_empty_value(self, mock_print):
+        self.app.increase_status_patient('')
+        mock_print.assert_called_with(ERROR_VALUE_SHOULD_BE_UNSIGNED_INT)
 
-    def test_min_value(self):
+    @patch('builtins.print')
+    def test_min_value(self, mock_print):
         self.entities._list_of_patients = [2, 2, 2, 2]
-        assert self.app.increase_status_patient(-12) == ERROR_VALUE_SHOULD_BE_UNSIGNED_INT
+        self.app.increase_status_patient(-12)
+        mock_print.assert_called_with(ERROR_VALUE_SHOULD_BE_UNSIGNED_INT)
 
-    def test_max_value(self):
+    @patch('builtins.print')
+    def test_max_value(self, mock_print):
         self.entities._list_of_patients = [2, 2, 2, 2]
-        assert self.app.increase_status_patient(22) == ERROR_THERE_IS_NOT_PATIENT_WITH_THIS_ID
-
+        self.app.increase_status_patient(22)
+        mock_print.assert_called_with(ERROR_THERE_IS_NOT_PATIENT_WITH_THIS_ID)
 
 class TestCanIncreaseStatus:
     entities = Hospital()
@@ -73,13 +80,13 @@ class TestProtectedMethods:
     app = UseCases(entities)
 
     def test_ask_client_to_discharge_patient_get_true(self):
-        Console.get_input = MagicMock(return_value=YES)
+        Console.get_message = MagicMock(return_value=YES)
         assert self.app._ask_client_to_discharge_patient() is True
 
     def test_get_status_from_client_answer_no(self):
-        Console.get_input = MagicMock(return_value=NO)
+        Console.get_message = MagicMock(return_value=NO)
         assert self.app._ask_client_to_discharge_patient() is False
 
     def test_get_status_from_client_answer_some_text(self):
-        Console.get_input = MagicMock(return_value=TEXT)
+        Console.get_message = MagicMock(return_value=TEXT)
         assert self.app._ask_client_to_discharge_patient() is False

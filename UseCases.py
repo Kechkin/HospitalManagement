@@ -20,12 +20,12 @@ class UseCases:
         try:
             self._validate_patient_id(patient_id=patient_id)
             status_name = self.ent.get_status_name_by_patient_id(patient_id=patient_id)
-            return f'Статус пациента: {status_name}'
+            Console.send_message(f'Статус пациента: {status_name}')
         except (ExceptionNoPatientInHospital, ExceptionPositiveIntValue) as error:
-            return error.args[0]
+            Console.send_message(error.args[0])
 
     def _ask_client_to_discharge_patient(self):
-        self.client_answer = Console.get_input('Желаете этого клиента выписать? (да/нет):')
+        self.client_answer = Console.get_message('Желаете этого клиента выписать? (да/нет):')
         if self.client_answer == YES:
             return True
         return False
@@ -44,7 +44,7 @@ class UseCases:
                 status_name = self.ent.get_status_name_by_patient_id(patient_id=patient_id)
                 Console.send_message(f'Новый статус пациента: {status_name}')
         except (ExceptionNoPatientInHospital, ExceptionPositiveIntValue) as error:
-            return error.args[0]
+            Console.send_message(error.args[0])
 
     def decrease_status_patient(self, patient_id: int):
         try:
@@ -56,7 +56,7 @@ class UseCases:
                 status_name = self.ent.get_status_name_by_patient_id(patient_id=patient_id)
                 Console.send_message(f'Новый статус пациента: {status_name}')
         except (ExceptionNoPatientInHospital, ExceptionPositiveIntValue) as error:
-            return error.args[0]
+            Console.send_message(error.args[0])
 
     def discharge_patient(self, patient_id: int):
         try:
@@ -64,7 +64,7 @@ class UseCases:
             self.ent.discharge(patient_id=patient_id)
             Console.send_message(PATIENT_DISCHARGED)
         except (ExceptionNoPatientInHospital, ExceptionPositiveIntValue) as error:
-            return error.args[0]
+            Console.send_message(error.args[0])
 
     def show_calculated_hospital_statistics(self):
         calculated_statistics_data = self.ent.get_calculated_statistics()
