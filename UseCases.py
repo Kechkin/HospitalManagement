@@ -1,3 +1,4 @@
+from Console import Console
 from constants import ZERO, ERROR_VALUE_SHOULD_BE_UNSIGNED_INT, YES, \
     PATIENT_STATUS_READY_TO_DISCHARGE, PATIENT_DISCHARGED, ERROR_CANNOT_DECREASE_LOW_STATUS
 from exception import ExceptionNoPatientInHospital, ExceptionPositiveIntValue
@@ -9,10 +10,6 @@ class UseCases:
 
     def __init__(self, entities):
         self.ent = entities
-
-    @staticmethod
-    def _get_input(text):
-        return input(text)
 
     @staticmethod
     def _validate_patient_id(patient_id: int):
@@ -27,43 +24,45 @@ class UseCases:
         except (ExceptionNoPatientInHospital, ExceptionPositiveIntValue) as error:
             return error.args[0]
 
-    def _ask_client_to_discharge_patient(self, patient_id):
-        self.client_answer = self._get_input('Желаете этого клиента выписать? (да/нет):')
-        return self._get_status_from_client_answer(patient_id=patient_id,
-                                                   client_answer=self.client_answer)
+    def _ask_client_to_discharge_patient(self):
+        self.client_answer = Console.get_input('Желаете этого клиента выписать? (да/нет):')
+        if self.client_answer == YES:
+            return True
+        return False
 
-    def _get_status_from_client_answer(self, patient_id, client_answer):
-        if client_answer == YES:
-            return self.get_discharge_patient_status(patient_id=patient_id)
-        return PATIENT_STATUS_READY_TO_DISCHARGE
-
-    def get_increase_new_status_patient(self, patient_id):
+    def increase_status_patient(self, patient_id: int):
         try:
             self._validate_patient_id(patient_id=patient_id)
             if self.ent.can_increase_status_patient_id(patient_id=patient_id) is False:
-                return self._ask_client_to_discharge_patient(patient_id=patient_id)
-            self.ent.increase_status(patient_id=patient_id)
-            status_name = self.ent.get_status_name_by_patient_id(patient_id=patient_id)
-            return f'Новый статус пациента: {status_name}'
+                if self._ask_client_to_discharge_patient():
+                    self.ent.discharge(patient_id=patient_id)
+                    Console.send_message(PATIENT_DISCHARGED)
+                else:
+                    Console.send_message(PATIENT_STATUS_READY_TO_DISCHARGE)
+            else:
+                self.ent.increase_status(patient_id=patient_id)
+                status_name = self.ent.get_status_name_by_patient_id(patient_id=patient_id)
+                Console.send_message(f'Новый статус пациента: {status_name}')
         except (ExceptionNoPatientInHospital, ExceptionPositiveIntValue) as error:
             return error.args[0]
 
-    def get_decrease_new_status_patient(self, patient_id):
+    def decrease_status_patient(self, patient_id: int):
         try:
             self._validate_patient_id(patient_id=patient_id)
             if self.ent.can_decrease_status_patient_id(patient_id=patient_id) is False:
-                return ERROR_CANNOT_DECREASE_LOW_STATUS
-            self.ent.decrease_status(patient_id=patient_id)
-            status_name = self.ent.get_status_name_by_patient_id(patient_id=patient_id)
-            return f'Новый статус пациента: {status_name}'
+                Console.send_message(ERROR_CANNOT_DECREASE_LOW_STATUS)
+            else:
+                self.ent.decrease_status(patient_id=patient_id)
+                status_name = self.ent.get_status_name_by_patient_id(patient_id=patient_id)
+                Console.send_message(f'Новый статус пациента: {status_name}')
         except (ExceptionNoPatientInHospital, ExceptionPositiveIntValue) as error:
             return error.args[0]
 
-    def get_discharge_patient_status(self, patient_id):
+    def discharge_patient(self, patient_id: int):
         try:
             self._validate_patient_id(patient_id=patient_id)
             self.ent.discharge(patient_id=patient_id)
-            return PATIENT_DISCHARGED
+            Console.send_message(PATIENT_DISCHARGED)
         except (ExceptionNoPatientInHospital, ExceptionPositiveIntValue) as error:
             return error.args[0]
 
@@ -74,4 +73,4 @@ class UseCases:
         for k, v in calculated_statistics_data.items():
             if v != ZERO:
                 result += f'        в статусе "{k}": {v} чел. \n'
-        return result
+        return Console.send_message(result)

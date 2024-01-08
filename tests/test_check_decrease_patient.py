@@ -1,3 +1,6 @@
+import io
+from unittest.mock import patch
+
 from UseCases import UseCases
 from Hospital import Hospital
 from constants import (ERROR_THERE_IS_NOT_PATIENT_WITH_THIS_ID, ERROR_CANNOT_DECREASE_LOW_STATUS, TEXT,
@@ -8,44 +11,54 @@ class TestDecreasePatient:
     entities = Hospital()
     app = UseCases(entities)
 
-    def test_decrease_patient(self):
+    @patch('builtins.print')
+    def test_decrease_patient(self, mock_print):
         self.entities._list_of_patients = [2, 1, 2]
-        assert self.app.get_decrease_new_status_patient(2) == 'Новый статус пациента: Тяжело болен'
+        self.app.decrease_status_patient(2)
+        mock_print.assert_called_with('Новый статус пациента: Тяжело болен')
         assert self.entities._list_of_patients == [2, 0, 2]
 
     def test_text_instead_number(self):
-        assert self.app.get_decrease_new_status_patient(TEXT) == ERROR_VALUE_SHOULD_BE_UNSIGNED_INT
+        assert self.app.decrease_status_patient(TEXT) == ERROR_VALUE_SHOULD_BE_UNSIGNED_INT
 
     def test_value_below_zero(self):
         self.entities._list_of_patients = [2, 1, 2]
-        assert self.app.get_decrease_new_status_patient(-12) == ERROR_VALUE_SHOULD_BE_UNSIGNED_INT
+        assert self.app.decrease_status_patient(-12) == ERROR_VALUE_SHOULD_BE_UNSIGNED_INT
 
     def test_max_id(self):
-        assert self.app.get_decrease_new_status_patient(224) == ERROR_THERE_IS_NOT_PATIENT_WITH_THIS_ID
+        assert self.app.decrease_status_patient(224) == ERROR_THERE_IS_NOT_PATIENT_WITH_THIS_ID
 
-    def test_double_decrease(self):
-        self.entities._list_of_patients = [2, 1, 2, ]
-        self.app.get_decrease_new_status_patient(2)
-        assert self.app.get_decrease_new_status_patient(2) == ERROR_CANNOT_DECREASE_LOW_STATUS
+    @patch('builtins.print')
+    def test_double_decrease(self, mock_print):
+        self.entities._list_of_patients = [2, 1, 2]
+        self.app.decrease_status_patient(2)
+        self.app.decrease_status_patient(2)
+        mock_print.assert_called_with(ERROR_CANNOT_DECREASE_LOW_STATUS)
         assert self.entities._list_of_patients == [2, 0, 2]
 
     def test_empty_value(self):
-        assert self.app.get_decrease_new_status_patient(None) == ERROR_VALUE_SHOULD_BE_UNSIGNED_INT
+        assert self.app.decrease_status_patient(None) == ERROR_VALUE_SHOULD_BE_UNSIGNED_INT
 
-    def test_decrease_from_max_to_min_status(self):
+    @patch('builtins.print')
+    def test_decrease_from_max_to_min_status(self, mock_print):
         self.entities._list_of_patients = [3, 2, 3, 2, 3]
-        assert self.app.get_decrease_new_status_patient(5) == 'Новый статус пациента: Слегка болен'
+        self.app.decrease_status_patient(5)
+        mock_print.assert_called_with('Новый статус пациента: Слегка болен')
         assert self.entities._list_of_patients == [3, 2, 3, 2, 2]
 
-        assert self.app.get_decrease_new_status_patient(5) == 'Новый статус пациента: Болен'
+        self.app.decrease_status_patient(5)
+        mock_print.assert_called_with('Новый статус пациента: Болен')
         assert self.entities._list_of_patients == [3, 2, 3, 2, 1]
 
-        assert self.app.get_decrease_new_status_patient(5) == 'Новый статус пациента: Тяжело болен'
+        self.app.decrease_status_patient(5)
+        mock_print.assert_called_with('Новый статус пациента: Тяжело болен')
         assert self.entities._list_of_patients == [3, 2, 3, 2, 0]
 
-    def test_max_decrease(self):
+    @patch('builtins.print')
+    def test_max_decrease(self, mock_print):
         self.entities._list_of_patients = [3, 2, 0]
-        assert self.app.get_decrease_new_status_patient(3) == ERROR_CANNOT_DECREASE_LOW_STATUS
+        self.app.decrease_status_patient(3)
+        mock_print.assert_called_with(ERROR_CANNOT_DECREASE_LOW_STATUS)
 
 
 class TestCanDecreaseStatus:

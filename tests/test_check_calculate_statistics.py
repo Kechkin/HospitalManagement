@@ -1,3 +1,5 @@
+from unittest.mock import patch
+
 from UseCases import UseCases
 from Hospital import Hospital
 
@@ -6,38 +8,50 @@ class TestCalculateTextStatistics:
     entities = Hospital()
     app = UseCases(entities)
 
-    def test_calculate(self):
+    @patch('builtins.print')
+    def test_calculate(self, mock_print):
         self.entities._list_of_patients = [1, 1, 1]
-        assert self.app.show_calculated_hospital_statistics() == (
+        self.app.show_calculated_hospital_statistics()
+        mock_print.assert_called_with(
             'В больнице на данный момент находится 3 чел., из них: \n'
             '        в статусе "Болен": 3 чел. \n')
 
-    def test_patient_with_status_zero(self):
+    @patch('builtins.print')
+    def test_patient_with_status_zero(self, mock_print):
         self.entities._list_of_patients = [0, 0, 0]
-        assert self.app.show_calculated_hospital_statistics() == (
+        self.app.show_calculated_hospital_statistics()
+        mock_print.assert_called_with(
             'В больнице на данный момент находится 3 чел., из них: \n'
             '        в статусе "Тяжело болен": 3 чел. \n')
 
-    def test_patient_with_status_three(self):
+    @patch('builtins.print')
+    def test_patient_with_status_three(self, mock_print):
         self.entities._list_of_patients = [3, 3, 3]
-        assert self.app.show_calculated_hospital_statistics(), (
+        self.app.show_calculated_hospital_statistics()
+        mock_print.assert_called_with(
             'В больнице на данный момент находится 3 чел., из них: \n'
             '        в статусе "Готов к выписке": 3 чел. \n')
 
-    def test_patient_with_status_two(self):
+    @patch('builtins.print')
+    def test_patient_with_status_two(self, mock_print):
         self.entities._list_of_patients = [2, 2, 2]
-        assert self.app.show_calculated_hospital_statistics() == (
+        self.app.show_calculated_hospital_statistics()
+        mock_print.assert_called_with(
             'В больнице на данный момент находится 3 чел., из них: \n'
             '        в статусе "Слегка болен": 3 чел. \n')
 
-    def test_empty_list(self):
+    @patch('builtins.print')
+    def test_empty_list(self, mock_print):
         self.entities._list_of_patients = []
-        assert self.app.show_calculated_hospital_statistics() == ('В больнице на данный момент находится 0 чел., '
+        self.app.show_calculated_hospital_statistics()
+        mock_print.assert_called_with('В больнице на данный момент находится 0 чел., '
                                                                   'из них: \n')
 
-    def test_different_statuses(self):
+    @patch('builtins.print')
+    def test_different_statuses(self, mock_print):
         self.entities._list_of_patients = [0, 0, 1, 1, 2, 2, 3, 3]
-        assert self.app.show_calculated_hospital_statistics() == (
+        self.app.show_calculated_hospital_statistics()
+        mock_print.assert_called_with(
             'В больнице на данный момент находится 8 чел., из них: \n'
             '        в статусе "Тяжело болен": 2 чел. \n'
             '        в статусе "Болен": 2 чел. \n'

@@ -1,6 +1,9 @@
+from unittest.mock import patch
+
 from UseCases import UseCases
 from Hospital import Hospital
-from constants import ERROR_THERE_IS_NOT_PATIENT_WITH_THIS_ID, TEXT, ERROR_VALUE_SHOULD_BE_UNSIGNED_INT
+from constants import ERROR_THERE_IS_NOT_PATIENT_WITH_THIS_ID, TEXT, ERROR_VALUE_SHOULD_BE_UNSIGNED_INT, \
+    PATIENT_DISCHARGED
 from functions import generate_patients_with_statuses_from_zero_to_three
 
 
@@ -8,27 +11,29 @@ class TestDischarge:
     entities = Hospital()
     app = UseCases(entities)
 
-    def test_len_of_patients_list(self):
+    @patch('builtins.print')
+    def test_len_of_patients_list(self, mock_print):
         self.entities._list_of_patients = [1, 2, 1]
-        self.app.get_discharge_patient_status(3)
+        self.app.discharge_patient(3)
+        mock_print.assert_called_with(PATIENT_DISCHARGED)
         assert self.entities._list_of_patients == [1, 2]
 
     def test_empty_list(self):
         self.entities._list_of_patients = [1, 2, 1]
-        assert self.app.get_discharge_patient_status(100) == ERROR_THERE_IS_NOT_PATIENT_WITH_THIS_ID
+        assert self.app.discharge_patient(100) == ERROR_THERE_IS_NOT_PATIENT_WITH_THIS_ID
 
     def test_input_text(self):
         self.entities._list_of_patients = generate_patients_with_statuses_from_zero_to_three(3, 2)
-        assert self.app.get_discharge_patient_status(TEXT) == ERROR_VALUE_SHOULD_BE_UNSIGNED_INT
+        assert self.app.discharge_patient(TEXT) == ERROR_VALUE_SHOULD_BE_UNSIGNED_INT
 
     def test_input_max_value(self):
         self.entities._list_of_patients = generate_patients_with_statuses_from_zero_to_three(3, 2)
-        assert self.app.get_discharge_patient_status(300) == ERROR_THERE_IS_NOT_PATIENT_WITH_THIS_ID
+        assert self.app.discharge_patient(300) == ERROR_THERE_IS_NOT_PATIENT_WITH_THIS_ID
 
     def test_input_min_value(self):
         self.entities._list_of_patients = generate_patients_with_statuses_from_zero_to_three(3, 2)
-        assert self.app.get_discharge_patient_status(-11) == ERROR_VALUE_SHOULD_BE_UNSIGNED_INT
+        assert self.app.discharge_patient(-11) == ERROR_VALUE_SHOULD_BE_UNSIGNED_INT
 
     def test_empty_value(self):
         self.entities._list_of_patients = generate_patients_with_statuses_from_zero_to_three(3, 2)
-        assert self.app.get_discharge_patient_status(None) == ERROR_VALUE_SHOULD_BE_UNSIGNED_INT
+        assert self.app.discharge_patient(None) == ERROR_VALUE_SHOULD_BE_UNSIGNED_INT

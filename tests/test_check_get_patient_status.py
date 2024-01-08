@@ -16,13 +16,13 @@ class TestGetPatientStatus:
         self.entities._list_of_patients = [3, 3, 3]
         assert self.app.get_status_patient(2) == 'Статус пациента: Готов к выписке'
 
-        self.app.get_decrease_new_status_patient(2)
+        self.entities._list_of_patients = [3, 2, 3]
         assert self.app.get_status_patient(2) == 'Статус пациента: Слегка болен'
 
-        self.app.get_decrease_new_status_patient(2)
+        self.entities._list_of_patients = [3, 1, 3]
         assert self.app.get_status_patient(2) == 'Статус пациента: Болен'
 
-        self.app.get_decrease_new_status_patient(2)
+        self.entities._list_of_patients = [3, 0, 3]
         assert self.app.get_status_patient(2) == 'Статус пациента: Тяжело болен'
 
     def test_input_text(self):

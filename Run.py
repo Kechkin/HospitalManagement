@@ -22,20 +22,20 @@ while True:
         elif answer in ['status up', 'повысить статус пациента']:
             patient_id = input('Введите ID пациента: ')
             validate_patient_id_from_input(patient_id)
-            print(app.get_increase_new_status_patient(int(patient_id)))
+            app.increase_status_patient(int(patient_id))
 
         elif answer in ['status down', 'понизить статус пациента']:
             patient_id = input('Введите ID пациента: ')
             validate_patient_id_from_input(patient_id)
-            print(app.get_decrease_new_status_patient(int(patient_id)))
+            app.decrease_status_patient(int(patient_id))
 
         elif answer in ['discharge', 'выписать']:
             patient_id = input('Введите ID пациента: ')
             validate_patient_id_from_input(patient_id)
-            print(app.get_discharge_patient_status(int(patient_id)))
+            app.discharge_patient(int(patient_id))
 
         elif answer in ['рассчитать статистику', 'calculate statistics']:
-            print(app.show_calculated_hospital_statistics())
+           app.show_calculated_hospital_statistics()
 
         else:
             print(UNKNOWN_COMMAND_TRY_AGAIN)

@@ -24,7 +24,7 @@ class Hospital:
 
     def decrease_status(self, patient_id: int):
         self.__validate_exists_patient_id(patient_id=patient_id)
-        self._list_of_patients[patient_id - 1] -= 1
+        self.change_status_patient_id(patient_id=patient_id, value=-1)
 
     def can_increase_status_patient_id(self, patient_id: int):
         self.__validate_exists_patient_id(patient_id=patient_id)
@@ -33,7 +33,10 @@ class Hospital:
 
     def increase_status(self, patient_id: int):
         self.__validate_exists_patient_id(patient_id=patient_id)
-        self._list_of_patients[patient_id - 1] += 1
+        self.change_status_patient_id(patient_id=patient_id, value=+1)
+
+    def change_status_patient_id(self, patient_id, value):
+        self._list_of_patients[patient_id - 1] += value
 
     def get_status_name_by_patient_id(self, patient_id: int):
         self.__validate_exists_patient_id(patient_id=patient_id)
