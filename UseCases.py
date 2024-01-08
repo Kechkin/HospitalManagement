@@ -16,7 +16,7 @@ class UseCases:
         if not isinstance(patient_id, int) or patient_id < ZERO:
             raise ExceptionPositiveIntValue(ERROR_VALUE_SHOULD_BE_UNSIGNED_INT)
 
-    def get_status_patient(self, patient_id):
+    def get_status_patient(self, patient_id: int):
         try:
             self._validate_patient_id(patient_id=patient_id)
             status_name = self.ent.get_status_name_by_patient_id(patient_id=patient_id)
@@ -73,4 +73,4 @@ class UseCases:
         for k, v in calculated_statistics_data.items():
             if v != ZERO:
                 result += f'        в статусе "{k}": {v} чел. \n'
-        return Console.send_message(result)
+        Console.send_message(result)

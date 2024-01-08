@@ -15,12 +15,14 @@ class Hospital:
 
     def discharge(self, patient_id: int):
         self.__validate_exists_patient_id(patient_id=patient_id)
+        self.discharge_patient_from_list(patient_id=patient_id)
+
+    def discharge_patient_from_list(self, patient_id):
         self._list_of_patients.pop(patient_id - 1)
 
     def can_decrease_status_patient_id(self, patient_id: int):
         self.__validate_exists_patient_id(patient_id=patient_id)
-        if self._list_of_patients[patient_id - 1] == ZERO:
-            return False
+        return self.can_not_change_status(patient_id=patient_id, value=ZERO)
 
     def decrease_status(self, patient_id: int):
         self.__validate_exists_patient_id(patient_id=patient_id)
@@ -28,7 +30,10 @@ class Hospital:
 
     def can_increase_status_patient_id(self, patient_id: int):
         self.__validate_exists_patient_id(patient_id=patient_id)
-        if self._list_of_patients[patient_id - 1] == THREE:
+        return self.can_not_change_status(patient_id=patient_id, value=THREE)
+
+    def can_not_change_status(self, patient_id, value):
+        if self._list_of_patients[patient_id - 1] == value:
             return False
 
     def increase_status(self, patient_id: int):
