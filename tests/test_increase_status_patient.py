@@ -1,6 +1,6 @@
 from unittest.mock import patch, MagicMock
 
-from Console import Console
+from DialogueWithTheUser import DialogueWithTheUser
 from UseCases import UseCases
 from Hospital import Hospital
 from constants import (PATIENT_DISCHARGED, PATIENT_STATUS_READY_TO_DISCHARGE, ERROR_THERE_IS_NOT_PATIENT_WITH_THIS_ID,
@@ -80,13 +80,13 @@ class TestProtectedMethods:
     app = UseCases(entities)
 
     def test_ask_client_to_discharge_patient_get_true(self):
-        Console.get_message = MagicMock(return_value=YES)
+        DialogueWithTheUser.get_message_to_discharge_patient = MagicMock(return_value=YES)
         assert self.app._ask_client_to_discharge_patient() is True
 
     def test_get_status_from_client_answer_no(self):
-        Console.get_message = MagicMock(return_value=NO)
+        DialogueWithTheUser.get_message_to_discharge_patient = MagicMock(return_value=NO)
         assert self.app._ask_client_to_discharge_patient() is False
 
     def test_get_status_from_client_answer_some_text(self):
-        Console.get_message = MagicMock(return_value=TEXT)
+        DialogueWithTheUser.get_message_to_discharge_patient = MagicMock(return_value=TEXT)
         assert self.app._ask_client_to_discharge_patient() is False
