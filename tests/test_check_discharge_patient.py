@@ -25,25 +25,8 @@ class TestDischarge:
         mock_print.assert_called_with(ERROR_THERE_IS_NOT_PATIENT_WITH_THIS_ID)
 
     @patch('builtins.print')
-    def test_input_text(self, mock_print):
-        self.entities._list_of_patients = generate_patients_with_statuses_from_zero_to_three(3, 2)
-        self.app.discharge_patient(TEXT)
-        mock_print.assert_called_with(ERROR_VALUE_SHOULD_BE_UNSIGNED_INT)
-
-    @patch('builtins.print')
     def test_input_max_value(self, mock_print):
         self.entities._list_of_patients = generate_patients_with_statuses_from_zero_to_three(3, 2)
         self.app.discharge_patient(300)
         mock_print.assert_called_with(ERROR_THERE_IS_NOT_PATIENT_WITH_THIS_ID)
 
-    @patch('builtins.print')
-    def test_input_min_value(self, mock_print):
-        self.entities._list_of_patients = generate_patients_with_statuses_from_zero_to_three(3, 2)
-        self.app.discharge_patient(-11)
-        mock_print.assert_called_with(ERROR_VALUE_SHOULD_BE_UNSIGNED_INT)
-
-    @patch('builtins.print')
-    def test_empty_value(self, mock_print):
-        self.entities._list_of_patients = generate_patients_with_statuses_from_zero_to_three(3, 2)
-        self.app.discharge_patient(None)
-        mock_print.assert_called_with(ERROR_VALUE_SHOULD_BE_UNSIGNED_INT)

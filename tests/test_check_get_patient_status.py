@@ -34,21 +34,7 @@ class TestGetPatientStatus:
         mock_print.assert_called_with('Статус пациента: Тяжело болен')
 
     @patch('builtins.print')
-    def test_input_text(self, mock_print):
-        self.entities._list_of_patients = [3, 3]
-        self.app.get_status_patient(TEXT)
-        mock_print.assert_called_with(ERROR_VALUE_SHOULD_BE_UNSIGNED_INT)
-
-    @patch('builtins.print')
-    def test_input_empty_value(self, mock_print):
-        self.entities._list_of_patients = [3, 3]
-        self.app.get_status_patient(None)
-        mock_print.assert_called_with(ERROR_VALUE_SHOULD_BE_UNSIGNED_INT)
-
-    @patch('builtins.print')
     def test_error_values(self, mock_print):
         self.entities._list_of_patients = [3, 3, 2]
-        self.app.get_status_patient(-10)
-        mock_print.assert_called_with(ERROR_VALUE_SHOULD_BE_UNSIGNED_INT)
         self.app.get_status_patient(11)
         mock_print.assert_called_with(ERROR_THERE_IS_NOT_PATIENT_WITH_THIS_ID)

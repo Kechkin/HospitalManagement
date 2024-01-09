@@ -1,6 +1,6 @@
 from DialogueWithTheUser import DialogueWithTheUser
-from constants import ZERO, ERROR_VALUE_SHOULD_BE_UNSIGNED_INT, YES, \
-    PATIENT_STATUS_READY_TO_DISCHARGE, PATIENT_DISCHARGED, ERROR_CANNOT_DECREASE_LOW_STATUS
+from constants import (ZERO, YES, PATIENT_STATUS_READY_TO_DISCHARGE, PATIENT_DISCHARGED,
+                       ERROR_CANNOT_DECREASE_LOW_STATUS)
 from exception import ExceptionNoPatientInHospital, ExceptionPositiveIntValue
 
 
@@ -11,14 +11,8 @@ class UseCases:
     def __init__(self, entities):
         self.ent = entities
 
-    @staticmethod
-    def _validate_patient_id(patient_id: int):
-        if not isinstance(patient_id, int) or patient_id < ZERO:
-            raise ExceptionPositiveIntValue(ERROR_VALUE_SHOULD_BE_UNSIGNED_INT)
-
     def get_status_patient(self, patient_id: int):
         try:
-            self._validate_patient_id(patient_id=patient_id)
             status_name = self.ent.get_status_name_by_patient_id(patient_id=patient_id)
             DialogueWithTheUser.send_message(f'Статус пациента: {status_name}')
         except (ExceptionNoPatientInHospital, ExceptionPositiveIntValue) as error:
@@ -32,7 +26,6 @@ class UseCases:
 
     def increase_status_patient(self, patient_id: int):
         try:
-            self._validate_patient_id(patient_id=patient_id)
             if self.ent.can_increase_status_patient_id(patient_id=patient_id) is False:
                 if self._ask_client_to_discharge_patient():
                     self.ent.discharge(patient_id=patient_id)
@@ -48,7 +41,6 @@ class UseCases:
 
     def decrease_status_patient(self, patient_id: int):
         try:
-            self._validate_patient_id(patient_id=patient_id)
             if self.ent.can_decrease_status_patient_id(patient_id=patient_id) is False:
                 DialogueWithTheUser.send_message(ERROR_CANNOT_DECREASE_LOW_STATUS)
             else:
@@ -60,7 +52,6 @@ class UseCases:
 
     def discharge_patient(self, patient_id: int):
         try:
-            self._validate_patient_id(patient_id=patient_id)
             self.ent.discharge(patient_id=patient_id)
             DialogueWithTheUser.send_message(PATIENT_DISCHARGED)
         except (ExceptionNoPatientInHospital, ExceptionPositiveIntValue) as error:
