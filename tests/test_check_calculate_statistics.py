@@ -9,6 +9,9 @@ class TestCalculateTextStatistics:
     app = UseCases(entities, dialog)
 
     def test_calculate(self):
+        # тест на преобразование расчёта статистики в текст
+        #
+        # test_for_converting_calculated_statistics_into_text
         count_of_patients = 3
         data_calculated_statistics = {'Тяжело болен': 0,
                                       'Болен': 3,
@@ -20,6 +23,8 @@ class TestCalculateTextStatistics:
             '        в статусе "Болен": 3 чел. \n')
 
     def test_empty_list(self):
+        # тест на преобразование расчёта статистики в текст когда список пуст
+        # test_for_converting_calculated_statistics_into_text_when_list_is_empty
         count_of_patients = 0
         data_calculated_statistics = {'Тяжело болен': 0,
                                       'Болен': 0,
@@ -30,6 +35,8 @@ class TestCalculateTextStatistics:
             'из них: \n')
 
     def test_different_statuses(self):
+        # тест на преобразование расчёта статистики в текст с разными значениями в статусах
+        # test_for_converting_calculated_statistics_into_text_with_different_values_in_statuses
         count_of_patients = 8
         data_calculated_statistics = {'Тяжело болен': 1,
                                       'Болен': 3,
@@ -61,16 +68,22 @@ class TestCalculateValuesDataStatistic:
     app = UseCases(entities, dialog)
 
     def test_calculate_statuses(self):
+        # тест на расчет статистики
+        # test_statistics_calculation
         self.entities._list_of_patients = [0, 1, 1, 1, 2, 2, 3, 3]
         assert self.entities.get_calculated_statistics() == {'Болен': 3, 'Готов к выписке': 2,
                                                              'Слегка болен': 2, 'Тяжело болен': 1}
 
     def test_calculate_empty_list(self):
+        # тест на расчет статистики когда список пуст
+        # test_statistics_calculation_when_list_is_empty
         self.entities._list_of_patients = []
         assert self.entities.get_calculated_statistics() == {'Болен': 0, 'Готов к выписке': 0,
                                                              'Слегка болен': 0, 'Тяжело болен': 0}
 
     def test_calculate_status_number_one(self):
+        # тест на расчет статистики c одним статусом
+        # test_statistics_calculation_with_one_status
         self.entities._list_of_patients = [1, 1]
         assert self.entities.get_calculated_statistics() == {'Болен': 2, 'Готов к выписке': 0,
                                                              'Слегка болен': 0, 'Тяжело болен': 0}

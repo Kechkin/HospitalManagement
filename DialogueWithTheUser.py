@@ -26,8 +26,11 @@ class DialogueWithTheUser:
 
     @staticmethod
     def get_message():
-        # получить сообщение
-        # get_message
+        # получить введенное сообщение от пользователя
+        # get_entered_message_from_user
+
+        # получить введенное командное сообщение от пользователя
+        # get_entered_command_message_from_user
         return input('Введите команду: ')
 
     @staticmethod
