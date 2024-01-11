@@ -1,32 +1,30 @@
-from unittest.mock import patch
+from unittest.mock import MagicMock
 
+from DialogueWithTheUser import DialogueWithTheUser
 from UseCases import UseCases
 from Hospital import Hospital
-from constants import ERROR_THERE_IS_NOT_PATIENT_WITH_THIS_ID, TEXT, ERROR_VALUE_SHOULD_BE_UNSIGNED_INT, \
-    PATIENT_DISCHARGED
-from functions import generate_patients_with_statuses_from_zero_to_three
 
 
 class TestDischarge:
     entities = Hospital()
-    app = UseCases(entities)
+    dialog = DialogueWithTheUser()
+    app = UseCases(entities, dialog)
 
-    @patch('builtins.print')
-    def test_len_of_patients_list(self, mock_print):
+    def test_len_of_patients_list(self):
         self.entities._list_of_patients = [1, 2, 1]
+        self.dialog.send_message = MagicMock()
         self.app.discharge_patient(3)
-        mock_print.assert_called_with(PATIENT_DISCHARGED)
+        self.dialog.send_message.assert_called_with('Пациент выписан из больницы')
         assert self.entities._list_of_patients == [1, 2]
 
-    @patch('builtins.print')
-    def test_empty_list(self, mock_print):
+    def test_empty_list(self):
         self.entities._list_of_patients = [1, 2, 1]
+        self.dialog.send_message = MagicMock()
         self.app.discharge_patient(100)
-        mock_print.assert_called_with(ERROR_THERE_IS_NOT_PATIENT_WITH_THIS_ID)
+        self.dialog.send_message.assert_called_with('Ошибка. В больнице нет пациента с таким ID')
 
-    @patch('builtins.print')
-    def test_input_max_value(self, mock_print):
-        self.entities._list_of_patients = generate_patients_with_statuses_from_zero_to_three(3, 2)
+    def test_input_max_value(self):
+        self.entities._list_of_patients = [3, 3, 3]
+        self.dialog.send_message = MagicMock()
         self.app.discharge_patient(300)
-        mock_print.assert_called_with(ERROR_THERE_IS_NOT_PATIENT_WITH_THIS_ID)
-
+        self.dialog.send_message.assert_called_with('Ошибка. В больнице нет пациента с таким ID')

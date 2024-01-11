@@ -1,4 +1,3 @@
-from constants import ERROR_VALUE_SHOULD_BE_UNSIGNED_INT
 from exception import ExceptionPositiveIntValue
 
 
@@ -10,7 +9,7 @@ class DialogueWithTheUser:
     @staticmethod
     def _get_converted_text_to_patient_id_value(patient_id_as_text):
         if not patient_id_as_text.isdigit():
-            raise ExceptionPositiveIntValue(ERROR_VALUE_SHOULD_BE_UNSIGNED_INT)
+            raise ExceptionPositiveIntValue('Ошибка. ID пациента должно быть числом (целым, положительным)')
         return int(patient_id_as_text)
 
     def get_patient_id(self):
@@ -23,5 +22,8 @@ class DialogueWithTheUser:
         return input('Введите команду: ')
 
     @staticmethod
-    def get_message_to_discharge_patient():
-        return input('Желаете этого клиента выписать? (да/нет):')
+    def request_confirmation_to_discharge_patient():
+        user_answer = input('Желаете этого клиента выписать? (да/нет): ')
+        if user_answer == 'да':
+            return True
+        return False

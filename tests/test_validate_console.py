@@ -5,6 +5,7 @@ from exception import ExceptionPositiveIntValue
 
 
 class TestConvertedTextToPatientIDValue:
+
     def test_convert_text_to_patient_id(self):
         assert DialogueWithTheUser._get_converted_text_to_patient_id_value(patient_id_as_text='123') == 123
 
