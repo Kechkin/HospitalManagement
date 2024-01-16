@@ -1,13 +1,13 @@
 from unittest.mock import MagicMock
 
-from DialogueWithTheUser import DialogueWithTheUser
+from DialogWithUser import DialogWithUser
 from UseCases import UseCases
 from Hospital import Hospital
 
 
 class TestDischarge:
     entities = Hospital()
-    dialog = DialogueWithTheUser()
+    dialog = DialogWithUser()
     app = UseCases(entities, dialog)
 
     def test_patient_discharge(self):

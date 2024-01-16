@@ -12,7 +12,7 @@ class UseCases:
     def get_patient_status(self, patient_id: int):
         try:
             status_name = self.ent.get_status_name_by_patient_id(patient_id=patient_id)
-            self.dialog.send_message(f'Статус пациента: {status_name}')
+            self.dialog.send_message(f'Статус пациента: "{status_name}"')
         except ExceptionNoPatientInHospital as error:
             self.dialog.send_message(error.args[0])
 
@@ -28,7 +28,7 @@ class UseCases:
             else:
                 self.ent.increase_status(patient_id=patient_id)
                 patients_status = self.ent.get_status_name_by_patient_id(patient_id=patient_id)
-                self.dialog.send_message(f'Новый статус пациента: {patients_status}')
+                self.dialog.send_message(f'Новый статус пациента: "{patients_status}"')
         except ExceptionNoPatientInHospital as error:
             self.dialog.send_message(error.args[0])
 
@@ -41,7 +41,7 @@ class UseCases:
             else:
                 self.ent.decrease_status(patient_id=patient_id)
                 status_name = self.ent.get_status_name_by_patient_id(patient_id=patient_id)
-                self.dialog.send_message(f'Новый статус пациента: {status_name}')
+                self.dialog.send_message(f'Новый статус пациента: "{status_name}"')
         except ExceptionNoPatientInHospital as error:
             self.dialog.send_message(error.args[0])
 

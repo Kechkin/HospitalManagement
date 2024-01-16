@@ -1,13 +1,13 @@
 from unittest.mock import MagicMock
 
-from DialogueWithTheUser import DialogueWithTheUser
+from DialogWithUser import DialogWithUser
 from UseCases import UseCases
 from Hospital import Hospital
 
 
 class TestDecreasePatient:
     entities = Hospital()
-    dialog = DialogueWithTheUser()
+    dialog = DialogWithUser()
     app = UseCases(entities, dialog)
 
     def test_for_decrease_patient_status(self):
@@ -27,15 +27,15 @@ class TestDecreasePatient:
         self.entities._list_of_patients = [3, 2, 3, 2, 3]
         self.dialog.send_message = MagicMock()
         self.app.decrease_patient_status(5)
-        self.dialog.send_message.assert_called_with('Новый статус пациента: Слегка болен')
+        self.dialog.send_message.assert_called_with('Новый статус пациента: "Слегка болен"')
         assert self.entities._list_of_patients == [3, 2, 3, 2, 2]
 
         self.app.decrease_patient_status(5)
-        self.dialog.send_message.assert_called_with('Новый статус пациента: Болен')
+        self.dialog.send_message.assert_called_with('Новый статус пациента: "Болен"')
         assert self.entities._list_of_patients == [3, 2, 3, 2, 1]
 
         self.app.decrease_patient_status(5)
-        self.dialog.send_message.assert_called_with('Новый статус пациента: Тяжело болен')
+        self.dialog.send_message.assert_called_with('Новый статус пациента: "Тяжело болен"')
         assert self.entities._list_of_patients == [3, 2, 3, 2, 0]
 
     def test_to_decrease_the_lowest_status(self):
@@ -49,7 +49,7 @@ class TestDecreasePatient:
 
 class TestCanDecreaseStatus:
     entities = Hospital()
-    dialog = DialogueWithTheUser()
+    dialog = DialogWithUser()
     app = UseCases(entities, dialog)
 
     def test_if_not_allowed_decrease_status_then_get_false(self):

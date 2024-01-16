@@ -1,13 +1,13 @@
 from unittest.mock import MagicMock
 
-from DialogueWithTheUser import DialogueWithTheUser
+from DialogWithUser import DialogWithUser
 from UseCases import UseCases
 from Hospital import Hospital
 
 
 class TestIncreaseStatusPatient:
     entities = Hospital()
-    dialog = DialogueWithTheUser()
+    dialog = DialogWithUser()
     app = UseCases(entities, dialog)
 
     def test_with_the_highest_status_can_be_discharged_patient_if_user_approved(self):
@@ -30,11 +30,11 @@ class TestIncreaseStatusPatient:
         self.entities._list_of_patients = [0, 1, 3]
         self.dialog.send_message = MagicMock()
         self.app.increase_patient_status(1)
-        self.dialog.send_message.assert_called_with('Новый статус пациента: Болен')
+        self.dialog.send_message.assert_called_with('Новый статус пациента: "Болен"')
         self.app.increase_patient_status(1)
-        self.dialog.send_message.assert_called_with('Новый статус пациента: Слегка болен')
+        self.dialog.send_message.assert_called_with('Новый статус пациента: "Слегка болен"')
         self.app.increase_patient_status(1)
-        self.dialog.send_message.assert_called_with('Новый статус пациента: Готов к выписке')
+        self.dialog.send_message.assert_called_with('Новый статус пациента: "Готов к выписке"')
         assert self.entities._list_of_patients == [3, 1, 3]
 
     def test_cannot_increase_status_when_patient_id_is_outside_list(self):
@@ -46,7 +46,7 @@ class TestIncreaseStatusPatient:
 
 class TestCanIncreaseStatus:
     entities = Hospital()
-    dialog = DialogueWithTheUser()
+    dialog = DialogWithUser()
     app = UseCases(entities, dialog)
 
     def test_if_not_allowed_increase_status_then_get_false(self):

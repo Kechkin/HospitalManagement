@@ -3,7 +3,13 @@ from functions import generate_patients_with_statuses_from_zero_to_three
 
 
 class Hospital:
-    _list_of_patients = generate_patients_with_statuses_from_zero_to_three(200, 1)
+    _list_of_patients = None
+
+    def __init__(self, list_of_patients=None):
+        if list_of_patients:
+            self._list_of_patients = list_of_patients
+        else:
+            _list_of_patients = generate_patients_with_statuses_from_zero_to_three(200, 1)
 
     def check_if_patient_is_on_the_list(self, patient_id):
         if patient_id > self.get_count_of_patients():

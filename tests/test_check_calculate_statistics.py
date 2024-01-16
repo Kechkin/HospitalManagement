@@ -1,11 +1,11 @@
-from DialogueWithTheUser import DialogueWithTheUser
+from DialogWithUser import DialogWithUser
 from UseCases import UseCases
 from Hospital import Hospital
 
 
 class TestCalculateTextStatistics:
     entities = Hospital()
-    dialog = DialogueWithTheUser()
+    dialog = DialogWithUser()
     app = UseCases(entities, dialog)
 
     def test_for_converting_calculated_statistics_into_text(self):
@@ -57,7 +57,7 @@ class TestCalculateTextStatistics:
 
 class TestCalculateValuesDataStatistic:
     entities = Hospital()
-    dialog = DialogueWithTheUser()
+    dialog = DialogWithUser()
     app = UseCases(entities, dialog)
 
     def test_statistics_calculation(self):

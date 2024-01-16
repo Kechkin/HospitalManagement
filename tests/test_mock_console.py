@@ -7,7 +7,6 @@ def test_input():
     console = MockConsole()
     console.add_expected_request_and_response('Введите команду: ', 'узнать статус пациента')
     console.add_expected_request_and_response('Введите ID пациента: ', '7')
-
     assert console.input('Введите команду: ') == 'узнать статус пациента'
     assert console.input('Введите ID пациента: ') == '7'
 
@@ -15,7 +14,6 @@ def test_input():
 def test_input_when_invalid_request():
     console = MockConsole()
     console.add_expected_request_and_response('Введите команду: ', 'для этого теста подходит любой ответ')
-
     with pytest.raises(AssertionError):
         console.input('Пожалуйста, введите команду: ')
 
@@ -55,6 +53,8 @@ def test_print_when_list_of_expected_messages_is_empty():
     with pytest.raises(AssertionError):
         console.print('Второе сообщение')
 
+
+# Todo test verify_all_calls_hav
 
 def test_not_verify_all_calls_have_been_made():
     console = MockConsole()
